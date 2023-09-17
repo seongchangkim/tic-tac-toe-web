@@ -1,0 +1,8 @@
+# node_module
+/node_modules
+
+# nest
+/dist
+
+# package-lock.json
+/package-lock.json
