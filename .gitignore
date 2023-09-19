@@ -1,8 +1,8 @@
-# node_module
-/node_modules
+# node_modules
+node_modules
 
-# nest
-/dist
+# .next
+.next
 
 # package-lock.json
-/package-lock.json
+package-lock.json
