@@ -1,6 +1,4 @@
 import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Grade } from "./enum/user.grade.enum";
-import { AuthRole } from "./enum/user.role";
 
 @Entity()
 export class User extends BaseEntity {
@@ -18,12 +16,6 @@ export class User extends BaseEntity {
 
     @Column()
     nickname!: string;
-
-    @Column()
-    grade: Grade = Grade.UNRANDED;
-
-    @Column()
-    auth_role: AuthRole = AuthRole.USER;
 
     @CreateDateColumn({ type: "timestamp"})
     created_at?: Date;

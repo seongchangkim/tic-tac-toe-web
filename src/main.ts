@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './application.module';
 import config from 'config';
 
-type ServerType = {
+interface ServerType {
   port: number
 }
 

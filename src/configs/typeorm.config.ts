@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import config from "config";
 
-type ConfigPropertyType = {
+interface DBConfigPropertyType {
     port: number,
     host: string,
     type: "mysql" | "mariadb" | undefined,
@@ -14,7 +14,7 @@ type ConfigPropertyType = {
 }
 
 // config.get("db") 타입이 object임.
-const dbConfig: ConfigPropertyType = config.get("db");
+const dbConfig: DBConfigPropertyType = config.get("db");
 
 // console.log(typeof dbConfig);
 
