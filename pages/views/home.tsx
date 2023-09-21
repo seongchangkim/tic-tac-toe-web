@@ -10,7 +10,11 @@ const Home: NextPage<Props> = ({ query }) => {
 
   return (
     <div>
-      <div>Hello, {greetName}!</div>
+      <div
+        className='text-3xl font-bold underline'
+      >
+        Hello, {greetName}!
+      </div>
     </div>
   );
 };
