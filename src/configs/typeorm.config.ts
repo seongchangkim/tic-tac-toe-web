@@ -15,7 +15,6 @@ interface DBConfigPropertyType {
 
 // config.get("db") 타입이 object임.
 const dbConfig: DBConfigPropertyType = config.get("db");
-
 // console.log(typeof dbConfig);
 
 export const typeORMConfig : TypeOrmModuleOptions = {
