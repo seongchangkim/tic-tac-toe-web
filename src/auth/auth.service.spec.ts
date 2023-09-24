@@ -26,16 +26,17 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 
-  // it('회원가입 테스트 성공', async () => {
-  //   let target: ValidationPipe = new ValidationPipe({ transform: true, whitelist: true });
-  //   const req = {
-  //     "email" : "test1@test.com",
-  //     "password" : "test123!",
-  //     "nickname" : "test1",
-  //     "tel" : "010-1111-1111"
-  //   }
+  // 회원가입 로직 테스트 
+  it('회원가입 테스트 성공', async () => {
+    let target: ValidationPipe = new ValidationPipe({ transform: true, whitelist: true });
+    const req = {
+      "email" : "test1@test.com",
+      "password" : "test123!",
+      "nickname" : "test1",
+      "tel" : "010-1111-1111"
+    }
 
-  //   const success = await service.signUp(req);
-  //   expect(success).toEqual(true);
-  // });
+    const success = await service.signUp(req);
+    expect(success).toEqual(true);
+  });
 });

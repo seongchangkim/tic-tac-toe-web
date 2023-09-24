@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpFormDTO } from './dto/sign-up-form-dto';
 
@@ -10,7 +10,7 @@ interface IsSucessType {
 export class AuthController {
     constructor(private authService: AuthService){}
 
-    @Get('/sign-up')
+    @Post('/sign-up')
     async signUp(
         @Body(ValidationPipe) req: SignUpFormDTO
     ): Promise<IsSucessType>{

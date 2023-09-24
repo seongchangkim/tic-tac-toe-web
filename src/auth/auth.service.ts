@@ -2,11 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { SignUpFormDTO } from './dto/sign-up-form-dto';
 import { UserRepository } from './user.repository';
 import { v4 as uuidv4 } from 'uuid';
-import { InjectRepository } from '@nestjs/typeorm';
+
 @Injectable()
 export class AuthService {
     constructor(
-        // @InjectRepository(UserRepository)
         private userRepository: UserRepository
     ){}
 
@@ -16,7 +15,6 @@ export class AuthService {
             await this.userRepository.save(signUpUser);
             return signUpUser !== undefined ? true : false;
         }catch(e) {
-            console.log(e);
             return false;
         }
     }
