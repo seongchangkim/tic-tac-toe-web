@@ -28,7 +28,6 @@ describe('AuthService', () => {
 
   // 회원가입 로직 테스트 
   it('회원가입 테스트 성공', async () => {
-    let target: ValidationPipe = new ValidationPipe({ transform: true, whitelist: true });
     const req = {
       "email" : "test1@test.com",
       "password" : "test123!",
