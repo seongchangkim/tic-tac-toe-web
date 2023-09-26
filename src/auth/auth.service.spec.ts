@@ -1,11 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from './user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { typeORMConfig } from '../configs/typeorm.config';
-import { ValidationPipe } from '@nestjs/common';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -26,6 +24,7 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 
+  // Unit TEST(단위 테스트)
   // 회원가입 로직 테스트 
   it('회원가입 테스트 성공', async () => {
     const req = {
