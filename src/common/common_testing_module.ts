@@ -9,11 +9,7 @@ interface ReqParameter {
     tel : string;
 }
 
-export const validationTest :(
-    req : ReqParameter, 
-    testText: string[] | string,
-    cb: ((value:string) => boolean) | null
-) => Promise<void> = async (
+export const validationTest = async (
     req: ReqParameter, 
     testText: string[] | string,
     cb: ((value:string) => boolean) | null
@@ -43,10 +39,7 @@ export const validationTest :(
         });
 } 
 
-export const validationFirstErrorMessageTest :(
-    req : ReqParameter, 
-    testText: string
-) => Promise<void> = async (
+export const validationFirstErrorMessageTest = async (
     req: ReqParameter, 
     testText: string
 ) => {
