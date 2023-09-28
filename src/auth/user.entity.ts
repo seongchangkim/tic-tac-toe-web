@@ -1,28 +1,30 @@
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    Timestamp,
+    UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
-    @PrimaryGeneratedColumn("uuid")
-    user_id!: string;
+    @PrimaryGeneratedColumn('uuid')
+    user_id: string;
 
     @Column()
-    email!: string;
+    password: string;
 
     @Column()
-    password!: string;
+    nickname: string;
 
-    @Column({ type: "char", length: 13 })
-    tel!: string;
+    @Column({ type: 'char', length: 13 })
+    tel: string;
 
-    @Column()
-    nickname!: string;
+    @CreateDateColumn({ type: 'timestamp' })
+    created_at: Timestamp;
 
-    @CreateDateColumn({ type: "timestamp"})
-    created_at?: Date;
-
-    @UpdateDateColumn({ type: "timestamp", onUpdate: "CURRENT_TIMESTAMP(6)" })
-    updated_at?: Date;
-
-    @DeleteDateColumn({ type: "timestamp" })
-    deleted_at?: Date;
+    @UpdateDateColumn({ type: 'timestamp', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+    last_modified_at: Timestamp;
 }

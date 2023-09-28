@@ -1,22 +1,21 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignUpFormDTO } from './dto/sign-up-form-dto';
+import { SignUpForm } from './dto/sign_up_form';
 
-interface IsSucessType {
-    success: boolean 
+interface IsSuccess {
+    success: boolean;
 }
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService){}
+    constructor(private service: AuthService) {}
 
     @Post('/sign-up')
-    async signUp(
-        @Body(ValidationPipe) req: SignUpFormDTO
-    ): Promise<IsSucessType>{
-        const success = await this.authService.signUp(req);
+    async signUp(@Body(ValidationPipe) req: SignUpForm): Promise<IsSuccess> {
+        const success = await this.service.signUp(req);
+
         return {
-            success
+            success,
         };
     }
 }

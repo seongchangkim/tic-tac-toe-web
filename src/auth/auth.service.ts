@@ -1,30 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { SignUpFormDTO } from './dto/sign-up-form-dto';
-import { UserRepository } from './user.repository';
 import { v4 as uuidv4 } from 'uuid';
-import * as bcrypt from "bcryptjs";
+import { UserRepository } from './user.repository';
+import { SignUpForm } from './dto/sign_up_form';
+import { User } from './user.entity';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private userRepository: UserRepository
-    ){}
+    constructor(private repository: UserRepository) {}
 
-    async signUp({email, password, nickname, tel}: SignUpFormDTO): Promise<boolean> {
-        try{
-            const salt = await bcrypt.genSalt();
-            const hashedPassword = await bcrypt.hash(password, salt);
+    async signUp(req: SignUpForm): Promise<boolean> {
+        try {
+            const signUpUser: User = await this.repository.create({
+                user_id: uuidv4(),
+                ...req,
+            });
 
-            const signUpUser = this.userRepository.create({
-                user_id : uuidv4(), 
-                email,
-                password: hashedPassword,
-                nickname,
-                tel
-            }); 
-            await this.userRepository.save(signUpUser);
+            await this.repository.save(signUpUser);
             return signUpUser !== undefined ? true : false;
-        }catch(e) {
+        } catch (e) {
+            console.log(e.message);
             return false;
         }
     }

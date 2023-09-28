@@ -1,19 +1,19 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './application.module';
-import config from 'config';
-import { ValidationPipe } from '@nestjs/common';
+import { AppModule } from './app.module';
+import * as config from 'config';
 
-interface ServerType {
-  port: number
+interface ServerConfigType {
+    port: number;
 }
 
 async function bootstrap() {
-  const server = await NestFactory.create(AppModule);
-  server.useGlobalPipes(new ValidationPipe())
-  const serverConfig: ServerType = config.get('server');
-  const port = serverConfig.port;
+    // 서버 포트 환경 변수 가져오기
+    const serverConfig: ServerConfigType = config.get('server');
+    const { port } = serverConfig;
 
-  await server.listen(port);
+    const app = await NestFactory.create(AppModule);
+    app.setGlobalPrefix('/api');
+
+    await app.listen(port);
 }
-
 bootstrap();

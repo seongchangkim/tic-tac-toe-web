@@ -1,6 +1,6 @@
-import { IsEmail, IsNotEmpty, IsPhoneNumber, Matches, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsPhoneNumber, MinLength } from 'class-validator';
 
-export class SignUpFormDTO {
+export class SignUpForm {
     @IsEmail()
     @IsNotEmpty()
     email: string;
@@ -12,8 +12,8 @@ export class SignUpFormDTO {
     @IsNotEmpty()
     nickname: string;
 
-    @IsPhoneNumber("KR")
+    @IsPhoneNumber('KR')
     @MinLength(13)
     @IsNotEmpty()
-    tel:string;
+    tel: string;
 }
