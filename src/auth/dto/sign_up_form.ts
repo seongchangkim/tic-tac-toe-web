@@ -15,7 +15,9 @@ export class SignUpForm {
         message:
             '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
     })
-    @IsNotEmpty()
+    @IsNotEmpty({
+        message: '비밀번호를 입력해주세요',
+    })
     password: string;
 
     @IsNotEmpty()

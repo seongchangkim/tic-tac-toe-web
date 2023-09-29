@@ -1,10 +1,7 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpForm } from './dto/sign_up_form';
-
-interface IsSuccess {
-    success: boolean;
-}
+import { IsSuccess } from './type/auth_common_type';
 
 @Controller('auth')
 export class AuthController {
@@ -12,10 +9,11 @@ export class AuthController {
 
     @Post('/sign-up')
     async signUp(@Body(ValidationPipe) req: SignUpForm): Promise<IsSuccess> {
-        const success = await this.service.signUp(req);
+        const { success, errorMessage } = await this.service.signUp(req);
 
         return {
             success,
+            errorMessage,
         };
     }
 }

@@ -36,6 +36,9 @@ describe('AuthService', () => {
         };
 
         const success = await service.signUp(req);
-        expect(success).toEqual(true);
+        expect(success).toEqual({
+            errorMessage: undefined,
+            success: true,
+        });
     });
 });

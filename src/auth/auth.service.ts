@@ -1,25 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from './user.repository';
 import { SignUpForm } from './dto/sign_up_form';
 import { User } from './user.entity';
+import * as bcrypt from 'bcryptjs';
+import { IsSuccess } from './type/auth_common_type';
 
 @Injectable()
 export class AuthService {
     constructor(private repository: UserRepository) {}
 
-    async signUp(req: SignUpForm): Promise<boolean> {
+    private logger = new Logger('AuthService');
+
+    async signUp({
+        email,
+        password,
+        nickname,
+        tel,
+    }: SignUpForm): Promise<IsSuccess> {
         try {
-            const signUpUser: User = await this.repository.create({
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(password, salt);
+            const signUpUser: User = this.repository.create({
                 user_id: uuidv4(),
-                ...req,
+                email,
+                password: hashedPassword,
+                nickname,
+                tel,
             });
 
             await this.repository.save(signUpUser);
-            return signUpUser !== undefined ? true : false;
+            return {
+                success: signUpUser !== undefined ? true : false,
+                errorMessage:
+                    signUpUser !== undefined
+                        ? undefined
+                        : '회원가입 실패했습니다.',
+            };
         } catch (e) {
-            console.log(e.message);
-            return false;
+            this.logger.error(e.message);
+            return {
+                success: false,
+                errorMessage: '관리자과 문의하세요',
+            };
         }
     }
 }
