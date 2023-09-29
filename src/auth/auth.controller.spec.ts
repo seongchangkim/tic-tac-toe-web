@@ -48,14 +48,14 @@ describe('AuthController', () => {
             },
             [
                 'email must be an email',
-                'password must be longer than or equal to 8 characters',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 'nickname should not be empty',
                 'tel must be longer than or equal to 13 characters',
             ],
             (value: string) =>
                 value.indexOf('email must be an email') > -1 ||
                 value.indexOf(
-                    'password must be longer than or equal to 8 characters',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 ) > -1 ||
                 value.indexOf(
                     'tel must be longer than or equal to 13 characters',
@@ -74,14 +74,14 @@ describe('AuthController', () => {
             },
             [
                 'email must be an email',
-                'password must be longer than or equal to 8 characters',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 'nickname should not be empty',
                 'tel must be a valid phone number',
             ],
             (value: string) =>
                 value.indexOf('email must be an email') > -1 ||
                 value.indexOf(
-                    'password must be longer than or equal to 8 characters',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 ) > -1 ||
                 value.indexOf('tel must be a valid phone number') > -1 ||
                 value.indexOf('not be empty') > -1,
@@ -98,13 +98,13 @@ describe('AuthController', () => {
             },
             [
                 'email should not be empty',
-                'password must be longer than or equal to 8 characters',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 'nickname should not be empty',
                 'tel must be longer than or equal to 13 characters',
             ],
             (value: string) =>
                 value.indexOf(
-                    'password must be longer than or equal to 8 characters',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 ) > -1 ||
                 value.indexOf(
                     'tel must be longer than or equal to 13 characters',
@@ -123,13 +123,13 @@ describe('AuthController', () => {
             },
             [
                 'email should not be empty',
-                'password must be longer than or equal to 8 characters',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 'nickname should not be empty',
                 'tel must be a valid phone number',
             ],
             (value: string) =>
                 value.indexOf(
-                    'password must be longer than or equal to 8 characters',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 ) > -1 ||
                 value.indexOf('tel must be a valid phone number') > -1 ||
                 value.indexOf('not be empty') > -1,
@@ -190,14 +190,14 @@ describe('AuthController', () => {
             },
             [
                 'email must be an email',
-                'password must be longer than or equal to 8 characters',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 'nickname should not be empty',
                 'tel should not be empty',
             ],
             (value: string) =>
                 value.indexOf('email must be an email') > -1 ||
                 value.indexOf(
-                    'password must be longer than or equal to 8 characters',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 ) > -1 ||
                 value.indexOf('not be empty') > -1,
         ));
@@ -254,13 +254,13 @@ describe('AuthController', () => {
             },
             [
                 'email should not be empty',
-                'password must be longer than or equal to 8 characters',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 'nickname should not be empty',
                 'tel should not be empty',
             ],
             (value: string) =>
                 value.indexOf(
-                    'password must be longer than or equal to 8 characters',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
                 ) > -1 || value.indexOf('not be empty') > -1,
         ));
 
@@ -307,7 +307,7 @@ describe('AuthController', () => {
         await validationFirstErrorMessageTest(
             {
                 email: 'test@test.com',
-                password: 'test1234',
+                password: 'Test123!',
                 nickname: 'test1',
                 tel: '',
             },
@@ -329,7 +329,7 @@ describe('AuthController', () => {
             .transform(
                 <SignUpForm>{
                     email: 'test@test.com',
-                    password: 'test1234',
+                    password: 'Test123!',
                     nickname: 'test1',
                     tel: '1111111',
                 },
@@ -355,7 +355,7 @@ describe('AuthController', () => {
         await validationTest(
             {
                 email: 'test@test.com',
-                password: 'test1234',
+                password: 'Test123!',
                 nickname: 'test1',
                 tel: '0100000000',
             },
@@ -372,7 +372,9 @@ describe('AuthController', () => {
                 nickname: 'test1',
                 tel: '010-1111-1111',
             },
-            ['password must be longer than or equal to 8 characters'],
+            [
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
+            ],
             null,
         ));
 
@@ -393,7 +395,7 @@ describe('AuthController', () => {
         await validationTest(
             {
                 email: 'test@test.com',
-                password: 'test1234',
+                password: 'Test123!',
                 nickname: '',
                 tel: '010-1111-1111',
             },
@@ -418,7 +420,7 @@ describe('AuthController', () => {
         await validationTest(
             {
                 email: 'test1test.com',
-                password: 'test1234',
+                password: 'Test123!',
                 nickname: 'test1',
                 tel: '010-1111-1111',
             },

@@ -30,7 +30,7 @@ describe('AuthService', () => {
     it('회원가입 테스트 성공', async () => {
         const req: SignUpForm = {
             email: 'test1@test.com',
-            password: 'test123!',
+            password: 'Test123!',
             nickname: 'test1',
             tel: '010-1111-1111',
         };

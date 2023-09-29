@@ -1,11 +1,20 @@
-import { IsEmail, IsNotEmpty, IsPhoneNumber, MinLength } from 'class-validator';
+import {
+    IsEmail,
+    IsNotEmpty,
+    IsPhoneNumber,
+    Matches,
+    MinLength,
+} from 'class-validator';
 
 export class SignUpForm {
     @IsEmail()
     @IsNotEmpty()
     email: string;
 
-    @MinLength(8)
+    @Matches(/(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/, {
+        message:
+            '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
+    })
     @IsNotEmpty()
     password: string;
 
