@@ -52,7 +52,8 @@ export default defineComponent({
                     if (errorData.statusCode === 400) {
                         if (this.email.length > 0) {
                             this.validationMessageList.push(
-                                ...errorData.message.filter(
+                                ...this.filterValidationMessages(
+                                    errorData.message,
                                     (str: string) =>
                                         str.indexOf('must be an email') > -1,
                                 ),
@@ -61,7 +62,8 @@ export default defineComponent({
 
                         if (this.password.length > 0) {
                             this.validationMessageList.push(
-                                ...errorData.message.filter(
+                                ...this.filterValidationMessages(
+                                    errorData.message,
                                     (str: string) => str.indexOf('알파벳') > -1,
                                 ),
                             );
@@ -69,7 +71,8 @@ export default defineComponent({
 
                         if (this.tel.length > 0) {
                             this.validationMessageList.push(
-                                ...errorData.message.filter(
+                                ...this.filterValidationMessages(
+                                    errorData.message,
                                     (str: string) =>
                                         str.indexOf('valid phone number') >
                                             -1 ||
@@ -80,16 +83,15 @@ export default defineComponent({
                             );
 
                             const telVaildationMessageList =
-                                this.validationMessageList.filter(
+                                this.filterValidationMessages(
+                                    this.validationMessageList,
                                     (str: string) => str.indexOf('tel') > -1,
                                 );
 
-                            console.table(this.validationMessageList);
-                            console.table(telVaildationMessageList);
-
                             if (telVaildationMessageList.length > 1) {
                                 this.validationMessageList =
-                                    this.validationMessageList.filter(
+                                    this.filterValidationMessages(
+                                        this.validationMessageList,
                                         (str: string) =>
                                             str.indexOf(
                                                 'be longer than or equal to 13 characters',
@@ -99,34 +101,41 @@ export default defineComponent({
                         }
 
                         this.validationMessageList.push(
-                            ...errorData.message.filter(
+                            ...this.filterValidationMessages(
+                                errorData.message,
                                 (str: string) =>
                                     str.indexOf('not be empty') > -1 ||
                                     str.indexOf('입력해주세요') > -1,
                             ),
                         );
                     }
-
-                    console.table(this.validationMessageList);
                 });
         },
         checkValidationMessage(i: number) {
-            console.table(this.validationMessageList);
             const matchStr = ['email', '비밀번호', 'nickname', 'tel'];
-            console.log(i);
             const check =
                 this.validationMessageList.findIndex((str) => {
                     console.log(matchStr[i]);
                     console.log(str.indexOf(matchStr[i]) > -1);
                     return str.indexOf(matchStr[i]) > -1;
                 }) > -1;
-            console.log(
-                this.validationMessageList.findIndex(
-                    (str) => str.indexOf(matchStr[i]) > -1,
-                ),
-            );
-            console.log(check);
             return check;
+        },
+        // 유효성 검사 문구들 중 특정 문자에 대해서 필러링함.
+        filterValidationMessages(
+            validationMessages: string[],
+            cb: (str: string) => boolean,
+        ): string[] {
+            return validationMessages.filter(cb);
+        },
+        // 유효성 검사 문구들 중 특정 문자에 대해서 필러링하면서 유효성 검사 문구를 출력함.
+        printValidationMessage(
+            validationMessages: string[],
+            kind: string,
+        ): string {
+            return validationMessages[
+                validationMessages.findIndex((str) => str.indexOf(kind) > -1)
+            ];
         },
     },
 });
