@@ -1,4 +1,4 @@
-import { typeORMConfig } from '../config/typeorm.config';
+import { typeORMConfig } from '../configs/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { SignUpForm } from './dto/sign_up_form';

@@ -3,7 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeORMConfig } from './config/typeorm.config';
+import { typeORMConfig } from './configs/typeorm.config';
 
 @Module({
     imports: [

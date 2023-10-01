@@ -1,14 +1,19 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from './user.repository';
 import { SignUpForm } from './dto/sign_up_form';
 import { User } from './user.entity';
 import * as bcrypt from 'bcryptjs';
-import { IsSuccess } from './type/auth_common_type';
+import { IsSuccess, LoginRes } from './type/auth_common_type';
+import { LoginForm } from './dto/login_form';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    constructor(private repository: UserRepository) {}
+    constructor(
+        private repository: UserRepository,
+        private jwtService: JwtService,
+    ) {}
 
     private logger = new Logger('AuthService');
 
@@ -43,6 +48,31 @@ export class AuthService {
                 success: false,
                 errorMessage: '관리자과 문의하세요',
             };
+        }
+    }
+
+    async login({ email, password }: LoginForm): Promise<LoginRes> {
+        const loginedUser = await this.repository.findOne({
+            where: {
+                email,
+            },
+        });
+
+        if (loginedUser && bcrypt.compare(password, loginedUser.password)) {
+            const payload = {
+                nickname: loginedUser.nickname,
+                tel: loginedUser.tel,
+                role: loginedUser.auth_role,
+            };
+
+            const accessToken = await this.jwtService.sign(payload);
+            return {
+                accessToken,
+            };
+        } else {
+            throw new NotFoundException(
+                '아이디 또는 비밀번호가 일치하지 않습니다.',
+            );
         }
     }
 }

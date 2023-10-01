@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { UserRepository } from './user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { typeORMConfig } from '../config/typeorm.config';
+import { typeORMConfig } from '../configs/typeorm.config';
 import { SignUpForm } from './dto/sign_up_form';
 
 describe('AuthService', () => {

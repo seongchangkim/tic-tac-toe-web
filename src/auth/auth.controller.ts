@@ -1,7 +1,8 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpForm } from './dto/sign_up_form';
-import { IsSuccess } from './type/auth_common_type';
+import { IsSuccess, LoginRes } from './type/auth_common_type';
+import { LoginForm } from './dto/login_form';
 
 @Controller('auth')
 export class AuthController {
@@ -15,5 +16,12 @@ export class AuthController {
             success,
             errorMessage,
         };
+    }
+
+    @Post('/login')
+    async login(@Body(ValidationPipe) req: LoginForm): Promise<LoginRes> {
+        const { accessToken } = await this.service.login(req);
+
+        return { accessToken };
     }
 }

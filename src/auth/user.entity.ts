@@ -7,6 +7,7 @@ import {
     Timestamp,
     UpdateDateColumn,
 } from 'typeorm';
+import { AuthRole } from './enum/auth_role';
 
 @Entity()
 export class User extends BaseEntity {
@@ -24,6 +25,9 @@ export class User extends BaseEntity {
 
     @Column({ type: 'char', length: 13 })
     tel: string;
+
+    @Column({ type: 'varchar', length: 10 })
+    auth_role: AuthRole = AuthRole.USER;
 
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Timestamp;
