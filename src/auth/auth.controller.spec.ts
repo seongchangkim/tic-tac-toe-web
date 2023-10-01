@@ -37,6 +37,7 @@ describe('AuthController', () => {
     });
 
     // Unit TEST(단위 테스트)
+    // 회원가입 유효성 검사 테스트
     // [회원가입] 이메일 형식이 아니고 비밀번호 글자 수가 8자 미만이고 전화번호 글자 수가 13자 미만이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
     it('[회원가입] - 이메일 형식이 아니고 비밀번호 글자 수가 8자 미만이고 전화번호 글자 수가 13자 미만이고 나머지 입력값이 전부 빈 값임.', async () =>
         await validationTest(
@@ -47,20 +48,20 @@ describe('AuthController', () => {
                 tel: '0100000000',
             },
             [
-                'email must be an email',
-                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                'nickname should not be empty',
-                'tel must be longer than or equal to 13 characters',
+                '이메일 형식을 맞춰서 입력하세요',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                '닉네임을 입력하세요',
+                '입력하고자 전화번호 13자 이상을 입력하세요',
             ],
             (value: string) =>
-                value.indexOf('email must be an email') > -1 ||
+                value.indexOf('이메일 형식을 맞춰서 입력하세요') > -1 ||
                 value.indexOf(
-                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
                 ) > -1 ||
-                value.indexOf(
-                    'tel must be longer than or equal to 13 characters',
-                ) > -1 ||
-                value.indexOf('not be empty') > -1,
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') >
+                    -1 ||
+                value.indexOf('를 입력하세요') > -1 ||
+                value.indexOf('을 입력하세요') > -1,
         ));
 
     // [회원가입] 이메일 형식이 아니고 비밀번호 글자 수가 8자 미만이고 무효한 전화번호 형식이고 나머지 입력값이 빈 값인지 테스트 케이스
@@ -73,18 +74,21 @@ describe('AuthController', () => {
                 tel: '0000000',
             },
             [
-                'email must be an email',
-                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                'nickname should not be empty',
-                'tel must be a valid phone number',
+                '이메일 형식을 맞춰서 입력하세요',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호 형식을 맞춰서 입력하세요',
             ],
             (value: string) =>
-                value.indexOf('email must be an email') > -1 ||
-                value.indexOf(
-                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                ) > -1 ||
-                value.indexOf('tel must be a valid phone number') > -1 ||
-                value.indexOf('not be empty') > -1,
+                (value.indexOf('이메일 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf(
+                        '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                    ) > -1 ||
+                    value.indexOf('전화번호 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 비밀번호 글자 수가 8자 미만이고 전화번호 글자 수가 13자 미만이고 나머지 입력값이 빈 값인지 테스트 케이스
@@ -97,19 +101,19 @@ describe('AuthController', () => {
                 tel: '0100000000',
             },
             [
-                'email should not be empty',
-                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                'nickname should not be empty',
-                'tel must be longer than or equal to 13 characters',
+                '이메일을 입력하세요',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                '닉네임을 입력하세요',
+                '입력하고자 전화번호 13자 이상을 입력하세요',
             ],
             (value: string) =>
                 value.indexOf(
-                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
                 ) > -1 ||
-                value.indexOf(
-                    'tel must be longer than or equal to 13 characters',
-                ) > -1 ||
-                value.indexOf('not be empty') > -1,
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') >
+                    -1 ||
+                value.indexOf('를 입력하세요') > -1 ||
+                value.indexOf('을 입력하세요') > -1,
         ));
 
     // [회원가입] 비밀번호 글자 수가 8자 미만이고 무효한 전화번호 형식이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -122,17 +126,20 @@ describe('AuthController', () => {
                 tel: '0000000',
             },
             [
-                'email should not be empty',
-                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                'nickname should not be empty',
-                'tel must be a valid phone number',
+                '이메일을 입력하세요',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호 형식을 맞춰서 입력하세요',
             ],
             (value: string) =>
-                value.indexOf(
-                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
+                (value.indexOf(
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
                 ) > -1 ||
-                value.indexOf('tel must be a valid phone number') > -1 ||
-                value.indexOf('not be empty') > -1,
+                    value.indexOf('전화번호 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 이메일 형식이 아니고 전화번호 글자 수가 13자 미만이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -145,17 +152,17 @@ describe('AuthController', () => {
                 tel: '0100000000',
             },
             [
-                'email must be an email',
-                'password should not be empty',
-                'nickname should not be empty',
-                'tel must be longer than or equal to 13 characters',
+                '이메일 형식을 맞춰서 입력하세요',
+                '비밀번호를 입력하세요',
+                '닉네임을 입력하세요',
+                '입력하고자 전화번호 13자 이상을 입력하세요',
             ],
             (value: string) =>
-                value.indexOf('email must be an email') > -1 ||
-                value.indexOf(
-                    'tel must be longer than or equal to 13 characters',
-                ) > -1 ||
-                value.indexOf('not be empty') > -1,
+                value.indexOf('이메일 형식을 맞춰서 입력하세요') > -1 ||
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') >
+                    -1 ||
+                value.indexOf('를 입력하세요') > -1 ||
+                value.indexOf('을 입력하세요') > -1,
         ));
 
     // [회원가입] 이메일 형식이 아니고 무효한 전화번호 형식이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -168,15 +175,18 @@ describe('AuthController', () => {
                 tel: '0000000',
             },
             [
-                'email must be an email',
-                'password should not be empty',
-                'nickname should not be empty',
-                'tel must be a valid phone number',
+                '이메일 형식을 맞춰서 입력하세요',
+                '비밀번호를 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호 형식을 맞춰서 입력하세요',
             ],
             (value: string) =>
-                value.indexOf('email must be an email') > -1 ||
-                value.indexOf('tel must be a valid phone number') > -1 ||
-                value.indexOf('not be empty') > -1,
+                (value.indexOf('이메일 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf('전화번호 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 이메일 형식이 아니고 비밀번호 8자 미만이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -189,17 +199,20 @@ describe('AuthController', () => {
                 tel: '',
             },
             [
-                'email must be an email',
-                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                'nickname should not be empty',
-                'tel should not be empty',
+                '이메일 형식을 맞춰서 입력하세요',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호를 입력하세요',
             ],
             (value: string) =>
-                value.indexOf('email must be an email') > -1 ||
-                value.indexOf(
-                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                ) > -1 ||
-                value.indexOf('not be empty') > -1,
+                (value.indexOf('이메일 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf(
+                        '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                    ) > -1 ||
+                    value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 전화번호 글자 수가 13자 미만이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -212,15 +225,16 @@ describe('AuthController', () => {
                 tel: '0101111111',
             },
             [
-                'email should not be empty',
-                'password should not be empty',
-                'nickname should not be empty',
-                'tel must be longer than or equal to 13 characters',
+                '이메일을 입력하세요',
+                '비밀번호를 입력하세요',
+                '닉네임을 입력하세요',
+                '입력하고자 전화번호 13자 이상을 입력하세요',
             ],
             (value: string) =>
-                value.indexOf(
-                    'tel must be longer than or equal to 13 characters',
-                ) > -1 || value.indexOf('not be empty') > -1,
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') >
+                    -1 ||
+                value.indexOf('를 입력하세요') > -1 ||
+                value.indexOf('을 입력하세요') > -1,
         ));
 
     // [회원가입] 무효한 전화번호 형식이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -233,14 +247,17 @@ describe('AuthController', () => {
                 tel: '0000000',
             },
             [
-                'email should not be empty',
-                'password should not be empty',
-                'nickname should not be empty',
-                'tel must be a valid phone number',
+                '이메일을 입력하세요',
+                '비밀번호를 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호 형식을 맞춰서 입력하세요',
             ],
             (value: string) =>
-                value.indexOf('tel must be a valid phone number') > -1 ||
-                value.indexOf('not be empty') > -1,
+                (value.indexOf('전화번호 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 비밀번호 8자 미만이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -253,15 +270,19 @@ describe('AuthController', () => {
                 tel: '',
             },
             [
-                'email should not be empty',
-                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                'nickname should not be empty',
-                'tel should not be empty',
+                '이메일을 입력하세요',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호를 입력하세요',
             ],
             (value: string) =>
-                value.indexOf(
-                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
-                ) > -1 || value.indexOf('not be empty') > -1,
+                (value.indexOf(
+                    '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
+                ) > -1 ||
+                    value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 유효하지 않는 이메일 형식이고 나머지 입력값들이 전부 빈 값인지 테스트 케이스
@@ -274,14 +295,17 @@ describe('AuthController', () => {
                 tel: '',
             },
             [
-                'email must be an email',
-                'password should not be empty',
-                'nickname should not be empty',
-                'tel should not be empty',
+                '이메일 형식을 맞춰서 입력하세요',
+                '비밀번호를 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호를 입력하세요',
             ],
             (value: string) =>
-                value.indexOf('email must be an email') > -1 ||
-                value.indexOf('not be empty') > -1,
+                (value.indexOf('이메일 형식을 맞춰서 입력하세요') > -1 ||
+                    value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 모든 입력값들이 전부 빈 값인지 테스트 케이스
@@ -294,12 +318,16 @@ describe('AuthController', () => {
                 tel: '',
             },
             [
-                'email should not be empty',
-                'password should not be empty',
-                'nickname should not be empty',
-                'tel should not be empty',
+                '이메일을 입력하세요',
+                '비밀번호를 입력하세요',
+                '닉네임을 입력하세요',
+                '전화번호를 입력하세요',
             ],
-            (value: string) => value.indexOf('not be empty') > -1,
+            (value: string) =>
+                (value.indexOf('를 입력하세요') > -1 ||
+                    value.indexOf('을 입력하세요') > -1) &&
+                value.indexOf('입력하고자 전화번호 13자 이상을 입력하세요') ===
+                    -1,
         ));
 
     // [회원가입] 전화번호가 빈 값인지 실패 테스트 케이스
@@ -311,7 +339,7 @@ describe('AuthController', () => {
                 nickname: 'test1',
                 tel: '',
             },
-            'tel should not be empty',
+            '전화번호를 입력하세요',
         ));
 
     // [회원가입] 전화번호 형식인지 실패 테스트 케이스
@@ -345,7 +373,7 @@ describe('AuthController', () => {
             })
             .catch((err) => {
                 expect(err.getResponse().message[1]).toEqual(
-                    'tel must be a valid phone number',
+                    '전화번호 형식을 맞춰서 입력하세요',
                 );
             });
     });
@@ -359,7 +387,7 @@ describe('AuthController', () => {
                 nickname: 'test1',
                 tel: '0100000000',
             },
-            ['tel must be longer than or equal to 13 characters'],
+            ['입력하고자 전화번호 13자 이상을 입력하세요'],
             null,
         ));
 
@@ -373,7 +401,7 @@ describe('AuthController', () => {
                 tel: '010-1111-1111',
             },
             [
-                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상이어야 합니다.',
+                '알파벳 대소문자 및 특수문자 각각 한 글자씩 포함되어야 하고 비밀번호 글자 수가 8자 이상 입력하세요',
             ],
             null,
         ));
@@ -387,7 +415,7 @@ describe('AuthController', () => {
                 nickname: 'test1',
                 tel: '010-1111-1111',
             },
-            'password should not be empty',
+            '비밀번호를 입력하세요',
         ));
 
     // [회원가입] : 닉네임이 빈 값인지 실패 테스트 케이스
@@ -399,7 +427,7 @@ describe('AuthController', () => {
                 nickname: '',
                 tel: '010-1111-1111',
             },
-            ['nickname should not be empty'],
+            ['닉네임을 입력하세요'],
             null,
         ));
 
@@ -412,7 +440,7 @@ describe('AuthController', () => {
                 nickname: 'test1',
                 tel: '010-1111-1111',
             },
-            'email should not be empty',
+            '이메일을 입력하세요',
         ));
 
     // [회원가입] 회원가입 이메일 형식 유효성 실패 테스트 케이스
@@ -424,7 +452,7 @@ describe('AuthController', () => {
                 nickname: 'test1',
                 tel: '010-1111-1111',
             },
-            ['email must be an email'],
+            ['이메일 형식을 맞춰서 입력하세요'],
             null,
         ));
 });

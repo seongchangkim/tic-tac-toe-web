@@ -55,7 +55,9 @@ export default defineComponent({
                                 ...this.filterValidationMessages(
                                     errorData.message,
                                     (str: string) =>
-                                        str.indexOf('must be an email') > -1,
+                                        str.indexOf(
+                                            '이메일 형식을 맞춰서 입력하세요',
+                                        ) > -1,
                                 ),
                             );
                         }
@@ -74,10 +76,11 @@ export default defineComponent({
                                 ...this.filterValidationMessages(
                                     errorData.message,
                                     (str: string) =>
-                                        str.indexOf('valid phone number') >
-                                            -1 ||
                                         str.indexOf(
-                                            'be longer than or equal to 13 characters',
+                                            '전화번호 형식을 맞춰서 입력하세요',
+                                        ) > -1 ||
+                                        str.indexOf(
+                                            '입력하고자 전화번호 13자 이상을 입력하세요',
                                         ) > -1,
                                 ),
                             );
@@ -85,7 +88,8 @@ export default defineComponent({
                             const telVaildationMessageList =
                                 this.filterValidationMessages(
                                     this.validationMessageList,
-                                    (str: string) => str.indexOf('tel') > -1,
+                                    (str: string) =>
+                                        str.indexOf('전화번호') > -1,
                                 );
 
                             if (telVaildationMessageList.length > 1) {
@@ -94,7 +98,7 @@ export default defineComponent({
                                         this.validationMessageList,
                                         (str: string) =>
                                             str.indexOf(
-                                                'be longer than or equal to 13 characters',
+                                                '입력하고자 전화번호 13자 이상을 입력하세요',
                                             ) === -1,
                                     );
                             }
@@ -103,22 +107,27 @@ export default defineComponent({
                         this.validationMessageList.push(
                             ...this.filterValidationMessages(
                                 errorData.message,
-                                (str: string) =>
-                                    str.indexOf('not be empty') > -1 ||
-                                    str.indexOf('입력해주세요') > -1,
+                                (str: string) => {
+                                    return (
+                                        (str.indexOf('을 입력하세요') > -1 ||
+                                            str.indexOf('를 입력하세요') >
+                                                -1) &&
+                                        str.indexOf(
+                                            '입력하고자 전화번호 13자 이상을 입력하세요',
+                                        ) === -1
+                                    );
+                                },
                             ),
                         );
                     }
                 });
         },
         checkValidationMessage(i: number) {
-            const matchStr = ['email', '비밀번호', 'nickname', 'tel'];
+            const matchStr = ['이메일', '비밀번호', '닉네임', '전화번호'];
             const check =
-                this.validationMessageList.findIndex((str) => {
-                    console.log(matchStr[i]);
-                    console.log(str.indexOf(matchStr[i]) > -1);
-                    return str.indexOf(matchStr[i]) > -1;
-                }) > -1;
+                this.validationMessageList.findIndex(
+                    (str) => str.indexOf(matchStr[i]) > -1,
+                ) > -1;
             return check;
         },
         // 유효성 검사 문구들 중 특정 문자에 대해서 필러링함.
