@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { defaultApiUrl } from '../../../global/default-api-url';
 import { defineComponent } from 'vue';
+import user_input_form from '../../../components/user/user_input_form/user_input_form.vue';
+import user_btn from '../../../components/user/user_btn/user_btn.vue';
 
 interface LoginFormParam {
     email: string;
@@ -8,6 +10,10 @@ interface LoginFormParam {
 }
 
 export default defineComponent({
+    components: {
+        UserInputForm: user_input_form,
+        UserBtn: user_btn,
+    },
     data() {
         return {
             email: '',
@@ -95,6 +101,13 @@ export default defineComponent({
             return validationMessages[
                 validationMessages.findIndex((str) => str.indexOf(kind) > -1)
             ];
+        },
+        valueChange(value: string, kind: string) {
+            if (kind === '이메일') {
+                this.email = value;
+            } else if (kind === '비밀번호') {
+                this.password = value;
+            }
         },
     },
 });

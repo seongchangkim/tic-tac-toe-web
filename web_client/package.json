@@ -51,9 +51,14 @@
       "ecmaVersion": 2020
     },
     "rules": {
-      "vue/multi-word-component-names": ["error", {
-        "ignores": ["login"]
-      }]
+      "vue/multi-word-component-names": [
+        "error",
+        {
+          "ignores": [
+            "login"
+          ]
+        }
+      ]
     }
   },
   "browserslist": [

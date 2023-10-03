@@ -8,7 +8,7 @@ import { typeORMConfig } from './configs/typeorm.config';
 @Module({
     imports: [
         ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', '..', 'web-client/dist'),
+            rootPath: join(__dirname, '..', '..', 'web_client/dist'),
         }),
         TypeOrmModule.forRoot(typeORMConfig),
         AuthModule,
