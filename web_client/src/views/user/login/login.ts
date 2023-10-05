@@ -38,15 +38,22 @@ export default defineComponent({
                     },
                 })
                 .then((res) => {
-                    const data = res.data;
+                    const { accessToken, user, isAuth } = res.data;
+                    const { userId, nickname, tel, role } = user;
 
-                    if (data.accessToken !== undefined) {
-                        console.log(data.accessToken);
+                    if (accessToken !== undefined) {
+                        this.$store.commit('setUser', {
+                            userId,
+                            nickname,
+                            tel,
+                            authRole: role,
+                            isAuth,
+                        });
+                        this.$cookies.set('x_auth', accessToken);
                         this.$router.push('/');
                     }
                 })
                 .catch((e) => {
-                    console.log(e);
                     const errorData = e.response.data;
 
                     if (errorData.statusCode === 400) {

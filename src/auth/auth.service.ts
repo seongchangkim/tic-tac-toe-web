@@ -60,6 +60,7 @@ export class AuthService {
 
         if (loginedUser && bcrypt.compare(password, loginedUser.password)) {
             const payload = {
+                userId: loginedUser.user_id,
                 nickname: loginedUser.nickname,
                 tel: loginedUser.tel,
                 role: loginedUser.auth_role,
@@ -68,6 +69,8 @@ export class AuthService {
             const accessToken = await this.jwtService.sign(payload);
             return {
                 accessToken,
+                user: payload,
+                isAuth: true,
             };
         } else {
             throw new NotFoundException(

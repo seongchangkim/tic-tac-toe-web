@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as config from 'config';
+import * as cookieParser from 'cookie-parser';
 
 interface ServerConfigType {
     port: number;
@@ -13,6 +14,7 @@ async function bootstrap() {
 
     const app = await NestFactory.create(AppModule);
     app.setGlobalPrefix('/api');
+    app.use(cookieParser());
 
     await app.listen(port);
 }

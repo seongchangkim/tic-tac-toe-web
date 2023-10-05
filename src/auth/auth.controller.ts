@@ -1,8 +1,23 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Post,
+    Req,
+    UnauthorizedException,
+    UseGuards,
+    ValidationPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpForm } from './dto/sign_up_form';
-import { IsSuccess, LoginRes } from './type/auth_common_type';
+import {
+    AuthCheckRes,
+    IsSuccess,
+    LoginRes,
+    RequestWithUser,
+} from './type/auth_common_type';
 import { LoginForm } from './dto/login_form';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -20,8 +35,28 @@ export class AuthController {
 
     @Post('/login')
     async login(@Body(ValidationPipe) req: LoginForm): Promise<LoginRes> {
-        const { accessToken } = await this.service.login(req);
+        const { accessToken, user, isAuth } = await this.service.login(req);
+        return {
+            accessToken,
+            user,
+            isAuth,
+        };
+    }
 
-        return { accessToken };
+    @UseGuards(AuthGuard())
+    @Get('/check')
+    checkAuth(@Req() req: RequestWithUser): AuthCheckRes {
+        if (!req.user) throw new UnauthorizedException('로그인이 필요합니다');
+
+        const { user_id, auth_role, nickname, tel } = req.user;
+        return {
+            user: {
+                userId: user_id,
+                nickname,
+                tel,
+                role: auth_role,
+            },
+            isAuth: true,
+        };
     }
 }
