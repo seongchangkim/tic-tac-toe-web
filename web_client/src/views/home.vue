@@ -31,7 +31,6 @@ export default defineComponent({
     methods: {
         getUser() {
             this.user = this.$store.getters['getUser'];
-            console.log(this.user);
         },
         // 빈 객체 체크
         isEmptyObject(obj: object): boolean {
