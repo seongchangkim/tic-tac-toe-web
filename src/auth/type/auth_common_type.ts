@@ -1,4 +1,4 @@
-import { AuthRole } from '../enum/auth_role';
+import { AuthRole } from '../enum/auth_role.enum';
 import { Request } from 'express';
 import { User } from '../user.entity';
 

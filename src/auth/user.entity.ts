@@ -7,7 +7,8 @@ import {
     Timestamp,
     UpdateDateColumn,
 } from 'typeorm';
-import { AuthRole } from './enum/auth_role';
+import { AuthRole } from './enum/auth_role.enum';
+import { SocialLoginType } from './enum/social_login_type.enum';
 
 @Entity()
 export class User extends BaseEntity {
@@ -28,6 +29,9 @@ export class User extends BaseEntity {
 
     @Column({ type: 'varchar', length: 10 })
     auth_role: AuthRole = AuthRole.USER;
+
+    @Column({ type: 'varchar', length: 10 })
+    social_login_type: SocialLoginType = SocialLoginType.NONE;
 
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Timestamp;
