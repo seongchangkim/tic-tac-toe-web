@@ -9,6 +9,7 @@ interface SignUpFormParam {
     password: string;
     nickname: string;
     tel: string;
+    social_login_type: string;
 }
 
 export default defineComponent({
@@ -35,6 +36,7 @@ export default defineComponent({
                 password: this.password,
                 nickname: this.nickname,
                 tel: this.tel,
+                social_login_type: 'NONE',
             };
 
             await axios
