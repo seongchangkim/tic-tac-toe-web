@@ -1,12 +1,14 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from './user.repository';
-import { SignUpForm } from './dto/sign_up_form';
+import { SignUpForm } from './dto/sign_up_form.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcryptjs';
-import { IsSuccess, LoginRes } from './type/auth_common_type';
-import { LoginForm } from './dto/login_form';
+import { IsSuccess, LoginRes, SocialLoginRes } from './type/auth_common_type';
+import { LoginForm } from './dto/login_form.dto';
 import { JwtService } from '@nestjs/jwt';
+import { SocialLoginType } from './enum/social_login_type.enum';
+import { SocialLoginReqForm } from './dto/social_login_req_form.dto';
 
 @Injectable()
 export class AuthService {
@@ -64,6 +66,7 @@ export class AuthService {
                 nickname: loginedUser.nickname,
                 tel: loginedUser.tel,
                 role: loginedUser.auth_role,
+                social_login_type: loginedUser.social_login_type,
             };
 
             const accessToken = await this.jwtService.sign(payload);
@@ -77,5 +80,41 @@ export class AuthService {
                 '아이디 또는 비밀번호가 일치하지 않습니다.',
             );
         }
+    }
+
+    async socialLogin(
+        socialLoginType: SocialLoginType,
+        { email, nickname }: SocialLoginReqForm,
+    ): Promise<SocialLoginRes> {
+        const existedUser = await this.repository.findOne({
+            where: {
+                email,
+                nickname,
+                social_login_type: socialLoginType,
+            },
+        });
+
+        if (!existedUser) {
+            return {
+                email,
+                nickname,
+                social_login_type: socialLoginType,
+            };
+        }
+
+        const payload = {
+            userId: existedUser.user_id,
+            nickname: existedUser.nickname,
+            tel: existedUser.tel,
+            role: existedUser.auth_role,
+            social_login_type: existedUser.social_login_type,
+        };
+
+        const accessToken = await this.jwtService.sign(payload);
+        return {
+            accessToken,
+            user: payload,
+            isAuth: true,
+        };
     }
 }

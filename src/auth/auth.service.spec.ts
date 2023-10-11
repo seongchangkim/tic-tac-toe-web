@@ -4,7 +4,7 @@ import { UserRepository } from './user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { typeORMConfig } from '../configs/typeorm.config';
-import { SignUpForm } from './dto/sign_up_form';
+import { SignUpForm } from './dto/sign_up_form.dto';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { jwtOptions } from '../configs/jwt.config';
 import { NotFoundException } from '@nestjs/common';

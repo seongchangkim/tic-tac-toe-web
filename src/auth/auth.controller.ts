@@ -1,8 +1,10 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Param, ParseEnumPipe, Post, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignUpForm } from './dto/sign_up_form';
-import { IsSuccess, LoginRes } from './type/auth_common_type';
-import { LoginForm } from './dto/login_form';
+import { SignUpForm } from './dto/sign_up_form.dto';
+import { IsSuccess, LoginRes, SocialLoginRes } from './type/auth_common_type';
+import { LoginForm } from './dto/login_form.dto';
+import { SocialLoginReqForm } from './dto/social_login_req_form.dto';
+import { SocialLoginType } from './enum/social_login_type.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -26,5 +28,14 @@ export class AuthController {
             user,
             isAuth,
         };
+    }
+
+    @Post('/social-login/:social_login_type')
+    async socialLogin(
+        @Body() req: SocialLoginReqForm,
+        @Param('social_login_type', new ParseEnumPipe(SocialLoginType))
+        type: SocialLoginType,
+    ): Promise<SocialLoginRes> {
+        return this.service.socialLogin(type, req);
     }
 }

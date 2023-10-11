@@ -58,6 +58,12 @@
 import { defineComponent } from 'vue';
 import game_event_btn from '../components/home/game_event_btn/game_event_btn.vue';
 
+interface WinConditionType {
+    cond1: string;
+    cond2: string;
+    cond3: string;
+    player: string;
+}
 export default defineComponent({
     components: {
         GameEventBtn: game_event_btn,
@@ -85,10 +91,6 @@ export default defineComponent({
         getUser() {
             this.user = this.$store.getters['getUser'];
         },
-        // 빈 객체 체크
-        isEmptyObject(obj: object): boolean {
-            return Object.keys(obj).length === 0 && obj.constructor === Object;
-        },
         logOut() {
             this.$cookies.remove('x_auth');
             this.$store.commit('setUser', {
@@ -98,7 +100,6 @@ export default defineComponent({
                 authRole: '',
                 isAuth: false,
             });
-            console.log(this.$store.getters['getUser']);
             this.getUser();
             this.$router.go(0);
         },
@@ -113,7 +114,6 @@ export default defineComponent({
             this.gameOver = false;
         },
         gameStartEvent() {
-            console.log('game Start!');
             this.gameStart = true;
         },
         makeMove(row: number, col: number) {
@@ -138,31 +138,43 @@ export default defineComponent({
         checkWin(player: string): boolean {
             for (let i = 0; i < 3; i++) {
                 if (
-                    this.boxes[i][0] === player &&
-                    this.boxes[i][1] === player &&
-                    this.boxes[i][2] === player
+                    this.checkWinCondition({
+                        cond1: this.boxes[i][0],
+                        cond2: this.boxes[i][1],
+                        cond3: this.boxes[i][2],
+                        player,
+                    })
                 ) {
                     return true;
                 }
                 if (
-                    this.boxes[0][i] === player &&
-                    this.boxes[1][i] === player &&
-                    this.boxes[2][i] === player
+                    this.checkWinCondition({
+                        cond1: this.boxes[0][i],
+                        cond2: this.boxes[1][i],
+                        cond3: this.boxes[2][i],
+                        player,
+                    })
                 ) {
                     return true;
                 }
             }
             if (
-                this.boxes[0][0] === player &&
-                this.boxes[1][1] === player &&
-                this.boxes[2][2] === player
+                this.checkWinCondition({
+                    cond1: this.boxes[0][0],
+                    cond2: this.boxes[1][1],
+                    cond3: this.boxes[2][2],
+                    player,
+                })
             ) {
                 return true;
             }
             if (
-                this.boxes[0][2] === player &&
-                this.boxes[1][1] === player &&
-                this.boxes[2][0] === player
+                this.checkWinCondition({
+                    cond1: this.boxes[0][2],
+                    cond2: this.boxes[1][1],
+                    cond3: this.boxes[2][0],
+                    player,
+                })
             ) {
                 return true;
             }
@@ -173,27 +185,29 @@ export default defineComponent({
         },
         computerMove() {
             if (!this.gameOver) {
-                let computorChance = true;
+                let computerChance = true;
                 let rowIndex = 0;
                 let colIndex = 0;
 
-                while (computorChance) {
-                    // console.log('computer chance');
+                while (computerChance) {
                     rowIndex = Math.floor(Math.random() * 3);
                     colIndex = Math.floor(Math.random() * 3);
 
                     if (this.boxes[rowIndex][colIndex] === '') {
-                        // console.log('computer check');
-                        // console.log(
-                        //     `rowIndex : ${rowIndex}, colIndex : ${colIndex}`,
-                        // );
                         this.boxes[rowIndex][colIndex] = 'O';
-                        // console.table(this.boxes);
-                        computorChance = false;
+                        computerChance = false;
                         return;
                     }
                 }
             }
+        },
+        checkWinCondition({
+            cond1,
+            cond2,
+            cond3,
+            player,
+        }: WinConditionType): boolean {
+            return cond1 === player && cond2 === player && cond3 === player;
         },
     },
     created() {

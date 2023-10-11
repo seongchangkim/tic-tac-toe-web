@@ -1,7 +1,7 @@
 import { ArgumentMetadata } from '@nestjs/common/interfaces';
 import { HttpException, ValidationPipe } from '@nestjs/common';
-import { SignUpForm } from '../auth/dto/sign_up_form';
-import { LoginForm } from '../auth/dto/login_form';
+import { SignUpForm } from '../auth/dto/sign_up_form.dto';
+import { LoginForm } from '../auth/dto/login_form.dto';
 
 interface ReqParameter {
     email: string;
