@@ -23,6 +23,14 @@ const routes: Array<RouteRecordRaw> = [
                 /* webpackChunkName: "login" */ '../views/user/login/login.vue'
             ),
     },
+    {
+        path: '/auth/social-login/:type',
+        name: 'socialLogin',
+        component: () =>
+            import(
+                /* webpackChunkName: "login" */ '../views/user/social_login_loading/social_login_loading.vue'
+            ),
+    },
 ];
 export const router = createRouter({
     history: createWebHistory(),

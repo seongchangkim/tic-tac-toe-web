@@ -116,5 +116,14 @@ export default defineComponent({
                 this.password = value;
             }
         },
+        // 소셜 로그인
+        socialLogin(type: string) {
+            if (type === 'KAKAO') {
+                (window as any).Kakao.Auth.authorize({
+                    redirectUri:
+                        'http://localhost:3000/auth/social-login/KAKAO',
+                });
+            }
+        },
     },
 });

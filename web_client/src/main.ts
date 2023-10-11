@@ -10,3 +10,5 @@ createApp(App)
     .use(store)
     .use(router)
     .mount('#app');
+
+(window as any).Kakao.init('0e7f8f889b5f77b3f8083efc8497557e');

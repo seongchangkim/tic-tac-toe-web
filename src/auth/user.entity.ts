@@ -24,7 +24,7 @@ export class User extends BaseEntity {
     @Column()
     nickname: string;
 
-    @Column({ type: 'char', length: 13 })
+    @Column({ type: 'char', length: 13, nullable: true })
     tel: string;
 
     @Column({ type: 'varchar', length: 10 })
@@ -32,6 +32,9 @@ export class User extends BaseEntity {
 
     @Column({ type: 'varchar', length: 10 })
     social_login_type: SocialLoginType = SocialLoginType.NONE;
+
+    @Column({ type: 'varchar', nullable: true })
+    profile_url: string;
 
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Timestamp;
