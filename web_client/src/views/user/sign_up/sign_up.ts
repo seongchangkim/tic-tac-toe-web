@@ -9,7 +9,6 @@ interface SignUpFormParam {
     password: string;
     nickname: string;
     tel: string;
-    social_login_type: string;
 }
 
 export default defineComponent({
@@ -36,7 +35,6 @@ export default defineComponent({
                 password: this.password,
                 nickname: this.nickname,
                 tel: this.tel,
-                social_login_type: 'NONE',
             };
 
             await axios
@@ -50,6 +48,7 @@ export default defineComponent({
 
                     if (data.success) {
                         alert('회원가입 완료되었습니다');
+                        this.$router.back();
                     } else if (!data.success) {
                         alert(data.errorMessage);
                     }

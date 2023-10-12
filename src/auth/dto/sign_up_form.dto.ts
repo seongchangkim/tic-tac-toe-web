@@ -1,12 +1,10 @@
 import {
     IsEmail,
-    IsEnum,
     IsNotEmpty,
     IsPhoneNumber,
     Matches,
     MinLength,
 } from 'class-validator';
-import { SocialLoginType } from '../enum/social_login_type.enum';
 
 export class SignUpForm {
     @IsEmail(undefined, {
@@ -41,7 +39,4 @@ export class SignUpForm {
         message: '전화번호를 입력하세요',
     })
     tel: string;
-
-    @IsEnum(SocialLoginType)
-    social_login_type: SocialLoginType;
 }

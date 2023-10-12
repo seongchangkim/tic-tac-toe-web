@@ -4,11 +4,15 @@ import { UserRepository } from './user.repository';
 import { SignUpForm } from './dto/sign_up_form.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcryptjs';
-import { IsSuccess, LoginRes, SocialLoginRes } from './type/auth_common_type';
+import { IsSuccess, LoginRes } from './type/auth_common_type';
 import { LoginForm } from './dto/login_form.dto';
 import { JwtService } from '@nestjs/jwt';
 import { SocialLoginType } from './enum/social_login_type.enum';
 import { SocialLoginReqForm } from './dto/social_login_req_form.dto';
+import {
+    SignUpUserType,
+    SocialUserType,
+} from './type/auth_common_service_type';
 
 @Injectable()
 export class AuthService {
@@ -26,17 +30,19 @@ export class AuthService {
         tel,
     }: SignUpForm): Promise<IsSuccess> {
         try {
-            const salt = await bcrypt.genSalt();
-            const hashedPassword = await bcrypt.hash(password, salt);
-            const signUpUser: User = this.repository.create({
-                user_id: uuidv4(),
-                email,
-                password: hashedPassword,
-                nickname,
-                tel,
-            });
+            const signUpUser: User = await this.registerUser(
+                {
+                    user_id: uuidv4(),
+                    email,
+                    nickname,
+                    tel,
+                    social_login_type: SocialLoginType.NONE,
+                },
+                password,
+            );
 
             await this.repository.save(signUpUser);
+
             return {
                 success: signUpUser !== undefined ? true : false,
                 errorMessage:
@@ -61,20 +67,7 @@ export class AuthService {
         });
 
         if (loginedUser && bcrypt.compare(password, loginedUser.password)) {
-            const payload = {
-                userId: loginedUser.user_id,
-                nickname: loginedUser.nickname,
-                tel: loginedUser.tel,
-                role: loginedUser.auth_role,
-                social_login_type: loginedUser.social_login_type,
-            };
-
-            const accessToken = await this.jwtService.sign(payload);
-            return {
-                accessToken,
-                user: payload,
-                isAuth: true,
-            };
+            return this.getLoginRes(loginedUser, undefined);
         } else {
             throw new NotFoundException(
                 '아이디 또는 비밀번호가 일치하지 않습니다.',
@@ -84,8 +77,8 @@ export class AuthService {
 
     async socialLogin(
         socialLoginType: SocialLoginType,
-        { email, nickname }: SocialLoginReqForm,
-    ): Promise<SocialLoginRes> {
+        { email, nickname, profileUrl, accessToken }: SocialLoginReqForm,
+    ): Promise<LoginRes> {
         const existedUser = await this.repository.findOne({
             where: {
                 email,
@@ -95,22 +88,54 @@ export class AuthService {
         });
 
         if (!existedUser) {
-            return {
-                email,
-                nickname,
-                social_login_type: socialLoginType,
-            };
+            const registerSocialUser: User = await this.registerUser(
+                {
+                    user_id: uuidv4(),
+                    email,
+                    nickname,
+                    social_login_type: socialLoginType,
+                    profile_url: profileUrl,
+                },
+                uuidv4(),
+            );
+
+            await this.repository.save(registerSocialUser);
+
+            return this.getLoginRes(registerSocialUser, accessToken);
         }
 
+        return this.getLoginRes(existedUser, accessToken);
+    }
+
+    // 회원 등록
+    private async registerUser(
+        param: SignUpUserType | SocialUserType,
+        inputPassword: string,
+    ): Promise<User> {
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(inputPassword, salt);
+        return this.repository.create({
+            password: hashedPassword,
+            ...param,
+        });
+    }
+
+    // 로그인 반환값 가져오기(feat 소셜 로그인)
+    private async getLoginRes(
+        userParam: User,
+        token: string | undefined,
+    ): Promise<LoginRes> {
         const payload = {
-            userId: existedUser.user_id,
-            nickname: existedUser.nickname,
-            tel: existedUser.tel,
-            role: existedUser.auth_role,
-            social_login_type: existedUser.social_login_type,
+            userId: userParam.user_id,
+            nickname: userParam.nickname,
+            tel: userParam.tel,
+            role: userParam.auth_role,
+            social_login_type: userParam.social_login_type,
         };
 
-        const accessToken = await this.jwtService.sign(payload);
+        const accessToken =
+            token !== undefined ? token : await this.jwtService.sign(payload);
+
         return {
             accessToken,
             user: payload,

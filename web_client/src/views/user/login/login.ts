@@ -116,5 +116,15 @@ export default defineComponent({
                 this.password = value;
             }
         },
+        // 소셜 로그인
+        socialLogin(type: string) {
+            if (type === 'KAKAO') {
+                (window as any).Kakao.Auth.authorize({
+                    redirectUri: process.env.VUE_APP_KAKAO_REDIRECT_URL,
+                });
+            } else if (type === 'GOOGLE') {
+                location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.VUE_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.VUE_APP_GOOGLE_REDIRECT_URL}&response_type=code&scope=email profile`;
+            }
+        },
     },
 });

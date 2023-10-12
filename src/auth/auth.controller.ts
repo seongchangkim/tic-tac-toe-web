@@ -1,7 +1,14 @@
-import { Body, Controller, Param, ParseEnumPipe, Post, ValidationPipe } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Param,
+    ParseEnumPipe,
+    Post,
+    ValidationPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpForm } from './dto/sign_up_form.dto';
-import { IsSuccess, LoginRes, SocialLoginRes } from './type/auth_common_type';
+import { IsSuccess, LoginRes } from './type/auth_common_type';
 import { LoginForm } from './dto/login_form.dto';
 import { SocialLoginReqForm } from './dto/social_login_req_form.dto';
 import { SocialLoginType } from './enum/social_login_type.enum';
@@ -35,7 +42,7 @@ export class AuthController {
         @Body() req: SocialLoginReqForm,
         @Param('social_login_type', new ParseEnumPipe(SocialLoginType))
         type: SocialLoginType,
-    ): Promise<SocialLoginRes> {
+    ): Promise<LoginRes> {
         return this.service.socialLogin(type, req);
     }
 }
