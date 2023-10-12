@@ -87,6 +87,57 @@ export default defineComponent({
                     this.$cookies.set('x_auth', accessToken);
                     this.$router.push('/');
                 }
+            } else if (type === 'GOOGLE') {
+                const getTokenRes = await axios.post(
+                    'https://oauth2.googleapis.com/token',
+                    {
+                        code,
+                        client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
+                        client_secret: process.env.VUE_APP_GOOGLE_CLIENT_SECRET,
+                        redirect_uri: process.env.VUE_APP_GOOGLE_REDIRECT_URL,
+                        grant_type: 'authorization_code',
+                    },
+                );
+
+                const { access_token, id_token } = getTokenRes.data;
+
+                const getGoogleProfileRes = await axios.post(
+                    `https://oauth2.googleapis.com/tokeninfo?id_token=${id_token}`,
+                );
+
+                const { email, name, picture } = getGoogleProfileRes.data;
+
+                const params: SocialLoginReqParam = {
+                    email,
+                    nickname: name,
+                    profileUrl: picture,
+                    accessToken: access_token,
+                };
+
+                const res = await axios.post(
+                    `${defaultApiUrl}api/auth/social-login/${type}`,
+                    params,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    },
+                );
+
+                const { accessToken, user, isAuth } = res.data;
+                const { userId, nickname, tel, role } = user;
+
+                if (isAuth) {
+                    this.$store.commit('setUser', {
+                        userId,
+                        nickname,
+                        tel,
+                        authRole: role,
+                        isAuth,
+                    });
+                    this.$cookies.set('x_auth', accessToken);
+                    this.$router.push('/');
+                }
             }
         },
     },
