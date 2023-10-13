@@ -1,5 +1,4 @@
 import { SocialLoginType } from '../enum/social_login_type.enum';
-import { ResUserType } from './auth_common_type';
 
 // 회원 등록 파라미터 타입
 interface CommonRegisterUserType {

@@ -130,7 +130,8 @@ export class AuthService {
             nickname: userParam.nickname,
             tel: userParam.tel,
             role: userParam.auth_role,
-            social_login_type: userParam.social_login_type,
+            socialLoginType: userParam.social_login_type,
+            profileUrl: userParam.profile_url,
         };
 
         const accessToken =

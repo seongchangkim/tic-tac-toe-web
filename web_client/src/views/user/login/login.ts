@@ -3,6 +3,7 @@ import { defaultApiUrl } from '../../../global/default-api-url';
 import { defineComponent } from 'vue';
 import user_input_form from '../../../components/user/user_input_form/user_input_form.vue';
 import user_btn from '../../../components/user/user_btn/user_btn.vue';
+import social_login_btn from '../../../components/user/social_login_btn/social_login_btn.vue';
 
 interface LoginFormParam {
     email: string;
@@ -13,6 +14,7 @@ export default defineComponent({
     components: {
         UserInputForm: user_input_form,
         UserBtn: user_btn,
+        SocialLoginBtn: social_login_btn,
     },
     data() {
         return {
@@ -39,7 +41,14 @@ export default defineComponent({
                 })
                 .then((res) => {
                     const { accessToken, user, isAuth } = res.data;
-                    const { userId, nickname, tel, role } = user;
+                    const {
+                        userId,
+                        nickname,
+                        tel,
+                        role,
+                        socialLoginType,
+                        profileUrl,
+                    } = user;
 
                     if (accessToken !== undefined) {
                         this.$store.commit('setUser', {
@@ -48,6 +57,8 @@ export default defineComponent({
                             tel,
                             authRole: role,
                             isAuth,
+                            socialLoginType,
+                            profileUrl,
                         });
                         this.$cookies.set('x_auth', accessToken);
                         this.$router.push('/');
@@ -114,16 +125,6 @@ export default defineComponent({
                 this.email = value;
             } else if (kind === '비밀번호') {
                 this.password = value;
-            }
-        },
-        // 소셜 로그인
-        socialLogin(type: string) {
-            if (type === 'KAKAO') {
-                (window as any).Kakao.Auth.authorize({
-                    redirectUri: process.env.VUE_APP_KAKAO_REDIRECT_URL,
-                });
-            } else if (type === 'GOOGLE') {
-                location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.VUE_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.VUE_APP_GOOGLE_REDIRECT_URL}&response_type=code&scope=email profile`;
             }
         },
     },

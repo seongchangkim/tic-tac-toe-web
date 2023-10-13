@@ -13,7 +13,8 @@ export interface ResUserType {
     nickname: string;
     tel: string;
     role: AuthRole;
-    social_login_type: SocialLoginType;
+    socialLoginType: SocialLoginType;
+    profileUrl: string;
 }
 
 export interface AuthCheckRes {

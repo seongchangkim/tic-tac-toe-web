@@ -9,16 +9,59 @@
                 </div>
             </router-link>
         </div>
-        <div v-else-if="user.isAuth" class="flex justify-end">
+        <div v-else-if="user.isAuth" class="flex items-end flex-col">
+            <div class="flex -space-x-2 overflow-hidden justify-end">
+                <img
+                    class="inline-block h-10 w-10 m-3 rounded-full ring-2 ring-white"
+                    :src="
+                        user.profileUrl !== null
+                            ? user.profileUrl
+                            : require('@/assets/icons/default-user-profile.png')
+                    "
+                    @click="onClickToggle"
+                />
+            </div>
             <div
-                @click="logOut()"
-                class="cursor-default mt-4 mr-4 bg-orange-600 rounded-3xl w-24 h-10 flex justify-center items-center"
+                v-if="clickToggle"
+                class="w-48 mr-4 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="user-menu-button"
+                tabindex="-1"
             >
-                로그아웃
+                <!-- Active: "bg-gray-100", Not Active: "" -->
+                <!-- <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-700"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="user-menu-item-0"
+                    >Your Profile</a
+                > -->
+                <div
+                    v-if="user.authRole === '관리자'"
+                    class="block px-4 py-2 text-sm text-gray-700 cursor-default"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="user-menu-item-1"
+                >
+                    관리자 페이지
+                </div>
+                <div
+                    class="block px-4 py-2 text-sm text-gray-700 cursor-default"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="user-menu-item-2"
+                    @click="logOut()"
+                >
+                    로그아웃
+                </div>
             </div>
         </div>
         <div class="h-4/6 flex justify-center items-center flex-col">
-            <h1 class="text-center my-5 text-2xl font-bold">Tic-Tac-Toe</h1>
+            <h1 id="main_title" class="text-center my-5 text-2xl font-bold">
+                Tic-Tac-Toe
+            </h1>
             <div class="w-full">
                 <div
                     v-for="(row, rowIndex) in boxes"
@@ -65,6 +108,7 @@ interface WinConditionType {
     player: string;
 }
 export default defineComponent({
+    name: 'Home',
     components: {
         GameEventBtn: game_event_btn,
     },
@@ -76,6 +120,8 @@ export default defineComponent({
                 tel: '',
                 authRole: '',
                 isAuth: false,
+                socialLoginType: '',
+                profileUrl: '',
             },
             boxes: [
                 ['', '', ''],
@@ -85,6 +131,7 @@ export default defineComponent({
             currentPlayer: 'X',
             gameOver: false,
             gameStart: false,
+            clickToggle: false,
         };
     },
     methods: {
@@ -98,6 +145,7 @@ export default defineComponent({
                 nickname: '',
                 tel: '',
                 authRole: '',
+                profileUrl: '',
                 isAuth: false,
             });
             this.getUser();
@@ -209,6 +257,18 @@ export default defineComponent({
         }: WinConditionType): boolean {
             return cond1 === player && cond2 === player && cond3 === player;
         },
+        onClickToggle() {
+            this.clickToggle = !this.clickToggle;
+        },
+        // 프로필 경로를 통해 프로필 이미지 가져오기
+        getImageUrl(path: string) {
+            const url =
+                path !== null
+                    ? path
+                    : '/src/assets/icons/default-user-profile.png';
+            console.log(new URL(url, import.meta.url));
+            return new URL(url, import.meta.url).pathname;
+        },
     },
     created() {
         this.getUser();
@@ -218,3 +278,11 @@ export default defineComponent({
     },
 });
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap');
+
+#main_title {
+    font-family: 'Pixelify Sans', sans-serif;
+}
+</style>

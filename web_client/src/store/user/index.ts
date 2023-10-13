@@ -7,6 +7,8 @@ interface UserType {
     tel: string;
     authRole: string;
     isAuth: boolean;
+    socialLoginType: string;
+    profileUrl: string;
 }
 
 export interface UserStateType {
@@ -21,6 +23,8 @@ export const UserStore: Module<UserStateType, RootState> = {
             tel: '',
             authRole: '',
             isAuth: false,
+            socialLoginType: '',
+            profileUrl: '',
         },
     },
     getters: {

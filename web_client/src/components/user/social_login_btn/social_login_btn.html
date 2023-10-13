@@ -1,0 +1,10 @@
+<div class="mx-auto my-0 w-1/2 md:w-1/3 sm:w-1/3 mt-3">
+    <div class="flex justify-around items-center h-10 rounded-md" :class="bgStyleClass" @click="socialLogin">
+        <div :class="imgStyleClass">
+            <img :src="require(`@/assets/icons/${img}.png`)"/>
+        </div>
+        <div class="text-sm w-5/12 font-semibold cursor-default" :class="textStyleClass">
+            {{ text }}
+        </div>
+    </div>
+</div>

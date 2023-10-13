@@ -45,16 +45,12 @@ export default defineComponent({
 
                 const profileInfo = await (window as any).Kakao.API.request({
                     url: '/v2/user/me',
-                })
-                    .then((res: any) => {
-                        return res.kakao_account;
-                    })
-                    .catch((error: any) => console.log(error));
+                });
 
                 const {
                     email,
                     profile: { nickname, profile_image_url },
-                } = profileInfo;
+                } = profileInfo.kakao_account;
 
                 const params: SocialLoginReqParam = {
                     email,
@@ -63,30 +59,7 @@ export default defineComponent({
                     accessToken: access_token,
                 };
 
-                const res = await axios.post(
-                    `${defaultApiUrl}api/auth/social-login/${type}`,
-                    params,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    },
-                );
-
-                const { accessToken, user, isAuth } = res.data;
-                const { userId, nickname: name, tel, role } = user;
-
-                if (isAuth) {
-                    this.$store.commit('setUser', {
-                        userId,
-                        nickname: name,
-                        tel,
-                        authRole: role,
-                        isAuth,
-                    });
-                    this.$cookies.set('x_auth', accessToken);
-                    this.$router.push('/');
-                }
+                this.socialLogin(params, type);
             } else if (type === 'GOOGLE') {
                 const getTokenRes = await axios.post(
                     'https://oauth2.googleapis.com/token',
@@ -114,30 +87,36 @@ export default defineComponent({
                     accessToken: access_token,
                 };
 
-                const res = await axios.post(
-                    `${defaultApiUrl}api/auth/social-login/${type}`,
-                    params,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                this.socialLogin(params, type);
+            }
+        },
+        async socialLogin(params: SocialLoginReqParam, type: string) {
+            const res = await axios.post(
+                `${defaultApiUrl}api/auth/social-login/${type}`,
+                params,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
                     },
-                );
+                },
+            );
 
-                const { accessToken, user, isAuth } = res.data;
-                const { userId, nickname, tel, role } = user;
+            const { accessToken, user, isAuth } = res.data;
+            const { userId, nickname, tel, role, socialLoginType, profileUrl } =
+                user;
 
-                if (isAuth) {
-                    this.$store.commit('setUser', {
-                        userId,
-                        nickname,
-                        tel,
-                        authRole: role,
-                        isAuth,
-                    });
-                    this.$cookies.set('x_auth', accessToken);
-                    this.$router.push('/');
-                }
+            if (accessToken !== undefined) {
+                this.$store.commit('setUser', {
+                    userId,
+                    nickname,
+                    tel,
+                    authRole: role,
+                    isAuth,
+                    socialLoginType,
+                    profileUrl,
+                });
+                this.$cookies.set('x_auth', accessToken);
+                this.$router.push('/');
             }
         },
     },

@@ -58,7 +58,8 @@
         {
           "ignores": [
             "login",
-            "home"
+            "home",
+            "Home"
           ]
         }
       ]
