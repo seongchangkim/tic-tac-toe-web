@@ -44,6 +44,7 @@
                     role="menuitem"
                     tabindex="-1"
                     id="user-menu-item-1"
+                    @click="moveAdminPage"
                 >
                     관리자 페이지
                 </div>
@@ -268,6 +269,9 @@ export default defineComponent({
                     : '/src/assets/icons/default-user-profile.png';
             console.log(new URL(url, import.meta.url));
             return new URL(url, import.meta.url).pathname;
+        },
+        moveAdminPage() {
+            this.$router.push('/admin');
         },
     },
     created() {

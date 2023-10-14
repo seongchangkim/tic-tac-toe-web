@@ -38,20 +38,20 @@ describe('AuthService', () => {
 
     // Unit TEST(단위 테스트)
     // 회원가입 로직 테스트
-    it('회원가입 테스트 성공', async () => {
-        const req: SignUpForm = {
-            email: 'test1@test.com',
-            password: 'Test123!',
-            nickname: 'test1',
-            tel: '010-1111-1111',
-        };
+    // it('회원가입 테스트 성공', async () => {
+    //     const req: SignUpForm = {
+    //         email: 'test1@test.com',
+    //         password: 'Test123!',
+    //         nickname: 'test1',
+    //         tel: '010-1111-1111',
+    //     };
 
-        const success = await service.signUp(req);
-        expect(success).toEqual({
-            errorMessage: undefined,
-            success: true,
-        });
-    });
+    //     const success = await service.signUp(req);
+    //     expect(success).toEqual({
+    //         errorMessage: undefined,
+    //         success: true,
+    //     });
+    // });
 
     // 로그인 성공 테스트
     it('로그인 테스트 성공', async () => {

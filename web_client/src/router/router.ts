@@ -28,7 +28,15 @@ const routes: Array<RouteRecordRaw> = [
         name: 'socialLogin',
         component: () =>
             import(
-                /* webpackChunkName: "login" */ '../views/user/social_login_loading/social_login_loading.vue'
+                /* webpackChunkName: "socialLogin" */ '../views/user/social_login_loading/social_login_loading.vue'
+            ),
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: () =>
+            import(
+                /* webpackChunkName: "admin" */ '../components/admin/dash_board/dash_board.vue'
             ),
     },
 ];
