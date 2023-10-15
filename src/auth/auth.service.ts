@@ -32,11 +32,11 @@ export class AuthService {
         try {
             const signUpUser: User = await this.registerUser(
                 {
-                    user_id: uuidv4(),
+                    userId: uuidv4(),
                     email,
                     nickname,
                     tel,
-                    social_login_type: SocialLoginType.NONE,
+                    socialLoginType: SocialLoginType.NONE,
                 },
                 password,
             );
@@ -83,18 +83,18 @@ export class AuthService {
             where: {
                 email,
                 nickname,
-                social_login_type: socialLoginType,
+                socialLoginType,
             },
         });
 
         if (!existedUser) {
             const registerSocialUser: User = await this.registerUser(
                 {
-                    user_id: uuidv4(),
+                    userId: uuidv4(),
                     email,
                     nickname,
-                    social_login_type: socialLoginType,
-                    profile_url: profileUrl,
+                    socialLoginType,
+                    profileUrl,
                 },
                 uuidv4(),
             );
@@ -122,16 +122,16 @@ export class AuthService {
 
     // 로그인 반환값 가져오기(feat 소셜 로그인)
     private async getLoginRes(
-        userParam: User,
+        { userId, nickname, tel, authRole, socialLoginType, profileUrl }: User,
         token: string | undefined,
     ): Promise<LoginRes> {
         const payload = {
-            userId: userParam.user_id,
-            nickname: userParam.nickname,
-            tel: userParam.tel,
-            role: userParam.auth_role,
-            socialLoginType: userParam.social_login_type,
-            profileUrl: userParam.profile_url,
+            userId,
+            nickname,
+            tel,
+            authRole,
+            socialLoginType,
+            profileUrl,
         };
 
         const accessToken =

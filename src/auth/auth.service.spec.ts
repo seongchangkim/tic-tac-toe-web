@@ -66,9 +66,12 @@ describe('AuthService', () => {
 
         if (loginedUser && bcrypt.compare(password, loginedUser.password)) {
             const payload = {
+                userId: loginedUser.userId,
                 nickname: loginedUser.nickname,
                 tel: loginedUser.tel,
-                role: loginedUser.auth_role,
+                role: loginedUser.authRole,
+                socialLoginType: loginedUser.socialLoginType,
+                profileUrl: loginedUser.profileUrl
             };
 
             const accessToken = await jwtService.sign(payload);

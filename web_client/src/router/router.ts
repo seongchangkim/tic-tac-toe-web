@@ -38,6 +38,24 @@ const routes: Array<RouteRecordRaw> = [
             import(
                 /* webpackChunkName: "admin" */ '../components/admin/dash_board/dash_board.vue'
             ),
+        children: [
+            {
+                path: 'users',
+                name: 'users',
+                component: () =>
+                    import(
+                        /* webpackChunkName: "users" */ '../views/admin/users/users.vue'
+                    ),
+            },
+            {
+                path: 'user/:userId',
+                name: 'userInfo',
+                component: () =>
+                    import(
+                        /* webpackChunkName: "userInfo" */ '../views/admin/user_info/user_info.vue'
+                    ),
+            },
+        ],
     },
 ];
 export const router = createRouter({

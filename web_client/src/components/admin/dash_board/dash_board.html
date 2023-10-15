@@ -45,7 +45,7 @@
                         <div class="absolute -top-3 -right-3 md:top-0 md:right-0 px-2 py-1.5 rounded-full bg-indigo-800 text-xs font-mono font-bold">23</div>
                     </div>
                 </a> -->
-                <router-link to="/admin">
+                <router-link to="/admin/users">
                     <div class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group">
                         <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
                             <div>
@@ -86,6 +86,7 @@
             </p>
         </div>
         <div id="content" class="bg-white/10 col-span-9 rounded-lg p-6">
+            <router-view></router-view>
             <!-- <div id="24h">
                 <h1 class="font-bold py-4 uppercase">Last 24h Statistics</h1>
                 <div id="stats" class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -269,7 +270,7 @@
             </div> -->
                 <!-- </div>
             </div> -->
-            <div id="last-users">
+            <!-- <div id="last-users">
                 <div class="flex justify-between">
                     <h1 class="font-bold py-4 uppercase text-2xl">회원 목록</h1>
                     <div class="flex justify-end">
@@ -350,23 +351,23 @@
                             <th class="text-left py-3 px-2">생성일자</th>
                             <th class="text-left py-3 px-2 rounded-r-lg">최근 수정일자</th>
                         </thead>
-                        <tr v-for="(user, index) in users" :key="index" class="border-b border-gray-700">
+                        <tr v-for="(otherUser, index) in users" :key="index" class="border-b border-gray-700">
                             <td class="py-3 px-2 font-bold">
                                 <div class="inline-flex space-x-3 items-center">
-                                    <span><img class="rounded-full w-8 h-8" :src="user.profile_url !== null
-                                        ? user.profile_url
+                                    <span><img class="rounded-full w-8 h-8" :src="otherUser.profileUrl !== null
+                                        ? otherUser.profileUrl
                                         : require('@/assets/icons/default-user-profile.png')" alt=""></span>
-                                    <span>{{user.nickname}}</span>
+                                    <span>{{otherUser.nickname}}</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-2">{{user.email}}</td>
-                            <td class="py-3 px-2">{{user.auth_role}}</td>
-                            <td class="py-3 px-2">{{user.social_login_type}}</td>
-                            <td class="py-3 px-2">{{this.$dayjs(user.created_at).format("YYYY-MM-DD HH:mm:ss")}}</td>
-                            <td class="py-3 px-2">{{ user.last_modified_at ? this.$dayjs(user.last_modified_at).format("YYYY-MM-DD HH:mm:ss") : "-" }}</td>
+                            <td class="py-3 px-2">{{otherUser.email}}</td>
+                            <td class="py-3 px-2">{{otherUser.authRole}}</td>
+                            <td class="py-3 px-2">{{otherUser.socialLoginType}}</td>
+                            <td class="py-3 px-2">{{this.$dayjs(otherUser.createdAt).format("YYYY-MM-DD HH:mm:ss")}}</td>
+                            <td class="py-3 px-2">{{ otherUser.lastModifiedAt ? this.$dayjs(otherUser.lastModifiedAt).format("YYYY-MM-DD HH:mm:ss") : "-" }}</td>
                         </tr>
 
-                        <!-- <tr class="border-b border-gray-700">
+                        <tr class="border-b border-gray-700">
                             <td class="py-3 px-2 font-bold">
                                 <div class="inline-flex space-x-3 items-center">
                                     <span><img class="rounded-full w-8 h-8" src="https://images.generated.photos/tGiLEDiAbS6NdHAXAjCfpKoW05x2nq70NGmxjxzT5aU/rs:fit:256:256/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/OTM4ODM1LmpwZw.jpg" alt=""></span>
@@ -473,7 +474,7 @@
                                       </a>
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr> 
                     </table>
                 </div>
                 <div class="mt-8 flex justify-end">
@@ -488,7 +489,6 @@
                           <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
                         </svg>
                       </div>
-                      <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
                       <div 
                         v-for="index in totalPage" 
                         :class= "this.currentPage == index ?
@@ -510,8 +510,7 @@
                       </div>
                     </nav>
                   </div>
-            </div>
-           
+            </div> -->
         </div>
     </div>
 </div>

@@ -37,10 +37,10 @@ export class AuthController {
         };
     }
 
-    @Post('/social-login/:social_login_type')
+    @Post('/social-login/:socialLoginType')
     async socialLogin(
         @Body() req: SocialLoginReqForm,
-        @Param('social_login_type', new ParseEnumPipe(SocialLoginType))
+        @Param('socialLoginType', new ParseEnumPipe(SocialLoginType))
         type: SocialLoginType,
     ): Promise<LoginRes> {
         return this.service.socialLogin(type, req);

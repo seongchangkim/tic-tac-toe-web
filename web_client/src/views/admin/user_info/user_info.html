@@ -1,0 +1,140 @@
+<div>
+    <div class="md:grid md:grid-cols-1 md:gap-6">
+      <div class="mt-5 md:col-span-1 md:mt-0">
+        <div class="mb-4 px-4 sm:px-0">
+          <h3 class="font-bold py-4 uppercase text-2xl">
+            회원 상세보기
+          </h3>
+        </div>
+
+        <div class="shadow sm:overflow-hidden sm:rounded-md">
+          <div class="space-y-6 px-4 py-5 sm:p-6">
+            <div>
+              <div class="mt-1 flex justify-center items-center">
+                <span class="inline-block h-24 w-24 rounded-full">
+                  <label
+                    for="profileUrl"
+                    class="relative cursor-pointer rounded-md h-12 w-12"
+                  >
+                    <!-- <img
+                      v-if="user.profileUrl != null"
+                      :src="getImageUrl(user.profileUrl)"
+                      class="rounded-full w-20 h-20"
+                    /> -->
+
+                    <img
+                      :src="user.profileUrl !== null ? user.profileUrl : require('@/assets/icons/default-user-profile.png')"
+                      class="rounded-full"
+                    />
+                  </label>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+              <label for="email" class="block text-sm font-medium text-gray-50"
+                >이메일</label
+              >
+              <input
+                type="email"
+                id="email"
+                class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
+                v-model="user.email"
+                disabled
+              />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="nickname" class="block text-sm font-medium text-gray-50"
+                >닉네임</label
+              >
+              <input
+                type="text"
+                id="nickname"
+                autocomplete="name"
+                class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
+                v-model="user.nickname"
+              />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="tel" class="block text-sm font-medium text-gray-50"
+                >전화번호</label
+              >
+              <input
+                type="text"
+                id="tel"
+                class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
+                :value="user.tel"
+              />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+                <label for="tel" class="block text-sm font-medium text-gray-50"
+                  >소셜 로그인</label
+                >
+                <input
+                  type="text"
+                  id="text"
+                  class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
+                  :value="user.socialLoginType"
+                  disabled
+                />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="role" class="block text-sm font-medium text-gray-50"
+                >권한</label
+              >
+              <div class="mt-4">
+                <div class="flex justify-start">
+                  <label
+                    for="authRole"
+                    class="block text-sm font-medium text-gray-50"
+                  >
+                    <input
+                      id="authRole"
+                      type="radio"
+                      class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      v-model="user.authRole"
+                      value="회원"
+                    />
+                    회원</label
+                  >
+
+                  <label
+                    for="authRole"
+                    class="ml-3 block text-sm font-medium text-gray-50"
+                  >
+                    <input
+                      id="authRole"
+                      type="radio"
+                      class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      v-model="user.authRole"
+                      value="관리자"
+                    />
+                    관리자</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
+            <button
+              @click="onUserEditing"
+              class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              회원 수정
+            </button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+</div>
+
+  <div class="hidden sm:block" aria-hidden="true">
+    <div class="py-5">
+      <div class="border-t border-gray-200"></div>
+    </div>
+  </div>

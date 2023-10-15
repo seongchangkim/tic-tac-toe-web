@@ -13,7 +13,7 @@ import { SocialLoginType } from './enum/social_login_type.enum';
 @Entity()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    user_id: string;
+    userId: string;
 
     @Column()
     email: string;
@@ -28,17 +28,17 @@ export class User extends BaseEntity {
     tel: string;
 
     @Column({ type: 'varchar', length: 10 })
-    auth_role: AuthRole = AuthRole.USER;
+    authRole: AuthRole = AuthRole.USER;
 
     @Column({ type: 'varchar', length: 10 })
-    social_login_type: SocialLoginType = SocialLoginType.NONE;
+    socialLoginType: SocialLoginType = SocialLoginType.NONE;
 
     @Column({ type: 'varchar', nullable: true })
-    profile_url: string;
+    profileUrl: string;
 
     @CreateDateColumn({ type: 'timestamp' })
-    created_at: Timestamp;
+    createdAt: Timestamp;
 
     @UpdateDateColumn({ type: 'timestamp', onUpdate: 'CURRENT_TIMESTAMP(6)' })
-    last_modified_at: Timestamp;
+    lastModifiedAt: Timestamp;
 }

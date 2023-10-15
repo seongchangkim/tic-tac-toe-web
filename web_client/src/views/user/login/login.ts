@@ -45,7 +45,7 @@ export default defineComponent({
                         userId,
                         nickname,
                         tel,
-                        role,
+                        authRole,
                         socialLoginType,
                         profileUrl,
                     } = user;
@@ -55,7 +55,7 @@ export default defineComponent({
                             userId,
                             nickname,
                             tel,
-                            authRole: role,
+                            authRole,
                             isAuth,
                             socialLoginType,
                             profileUrl,

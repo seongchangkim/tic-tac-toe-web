@@ -102,15 +102,21 @@ export default defineComponent({
             );
 
             const { accessToken, user, isAuth } = res.data;
-            const { userId, nickname, tel, role, socialLoginType, profileUrl } =
-                user;
+            const {
+                userId,
+                nickname,
+                tel,
+                authRole,
+                socialLoginType,
+                profileUrl,
+            } = user;
 
             if (accessToken !== undefined) {
                 this.$store.commit('setUser', {
                     userId,
                     nickname,
                     tel,
-                    authRole: role,
+                    authRole,
                     isAuth,
                     socialLoginType,
                     profileUrl,

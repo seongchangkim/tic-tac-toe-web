@@ -12,7 +12,7 @@ import {
     signUpValidationFirstErrorMessageTest,
     loginValidationTest,
     loginValidationFirstErrorMessageTest,
-} from '../common/common_testing_module';
+} from './common_test_module/common_testing_module';
 import { AuthController } from './auth.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';

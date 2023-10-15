@@ -7,7 +7,7 @@ export default defineComponent({
             required: true,
         },
         styledClassName: {
-            type: Number,
+            type: String,
             required: true,
         },
         func: {

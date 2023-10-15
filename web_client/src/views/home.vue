@@ -271,7 +271,7 @@ export default defineComponent({
             return new URL(url, import.meta.url).pathname;
         },
         moveAdminPage() {
-            this.$router.push('/admin');
+            this.$router.push('/admin/users');
         },
     },
     created() {

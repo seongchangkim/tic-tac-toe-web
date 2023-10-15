@@ -12,7 +12,7 @@ export interface ResUserType {
     userId: string;
     nickname: string;
     tel: string;
-    role: AuthRole;
+    authRole: AuthRole;
     socialLoginType: SocialLoginType;
     profileUrl: string;
 }
