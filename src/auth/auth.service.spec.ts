@@ -8,6 +8,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { jwtOptions } from '../configs/jwt.config';
 import { NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
+import { SignUpForm } from './dto/sign_up_form.dto';
 
 describe('AuthService', () => {
     let service: AuthService;
@@ -38,20 +39,20 @@ describe('AuthService', () => {
     // Unit TEST(단위 테스트)
     // 회원가입 단위 테스트
     // 회원가입 로직 테스트 케이스 작성
-    // it('회원가입 테스트 성공', async () => {
-    //     const req: SignUpForm = {
-    //         email: 'test1@test.com',
-    //         password: 'Test123!',
-    //         nickname: 'test1',
-    //         tel: '010-1111-1111',
-    //     };
+    it('회원가입 테스트 성공', async () => {
+        const req: SignUpForm = {
+            email: 'test1@test.com',
+            password: 'Test123!',
+            nickname: 'test1',
+            tel: '010-1111-1111',
+        };
 
-    //     const success = await service.signUp(req);
-    //     expect(success).toEqual({
-    //         errorMessage: undefined,
-    //         success: true,
-    //     });
-    // });
+        const success = await service.signUp(req);
+        expect(success).toEqual({
+            errorMessage: undefined,
+            success: true,
+        });
+    });
 
     // 로그인 성공 테스트 케이스 작성
     it('로그인 테스트 성공', async () => {

@@ -1,10 +1,12 @@
 import { ArgumentMetadata } from '@nestjs/common/interfaces';
 import { HttpException, ValidationPipe } from '@nestjs/common';
 import { UserEditReqDto } from '../user_edit.dto';
+import { AuthRole } from 'src/auth/enum/auth_role.enum';
 
 interface ReqParameter {
     nickname: string;
     tel: string;
+    authRole: AuthRole;
     profileUrl: undefined;
 }
 

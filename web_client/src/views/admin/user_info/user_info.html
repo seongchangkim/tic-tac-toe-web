@@ -16,15 +16,17 @@
                     for="profileUrl"
                     class="relative cursor-pointer rounded-md h-12 w-12"
                   >
-                    <!-- <img
-                      v-if="user.profileUrl != null"
-                      :src="getImageUrl(user.profileUrl)"
-                      class="rounded-full w-20 h-20"
-                    /> -->
 
                     <img
                       :src="user.profileUrl !== null ? user.profileUrl : require('@/assets/icons/default-user-profile.png')"
                       class="rounded-full"
+                    />
+
+                    <input
+                        id="profileUrl"
+                        type="file"
+                        class="sr-only"
+                        @change="onChangeProfileImage($event)"
                     />
                   </label>
                 </span>
@@ -105,14 +107,14 @@
             </div>
           </div>
 
-          <!-- <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
+          <div class="px-4 py-3 flex justify-center text-right sm:px-6">
             <button
               @click="onUserEditing"
               class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               회원 수정
             </button>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

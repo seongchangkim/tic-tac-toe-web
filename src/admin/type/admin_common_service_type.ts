@@ -20,10 +20,6 @@ export interface GetOtherUserInfoResType {
 
 // 회원 수정 Response 값 타입
 export interface EditOtherUserResType {
-    email: string;
-    nickname: string;
-    tel: string;
-    authRole: string;
-    socialLoginType: string;
-    profileUrl: string;
+    isSuccess: boolean;
+    message: string;
 }

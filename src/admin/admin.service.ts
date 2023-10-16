@@ -83,7 +83,7 @@ export class AdminService {
 
     // 회원 수정
     async editOtherUser(
-        { nickname, tel, profileUrl }: UserEditReqDto,
+        { nickname, tel, profileUrl, authRole }: UserEditReqDto,
         userId: string,
     ): Promise<EditOtherUserResType> {
         const editUserCount = await this.repository.update(
@@ -94,30 +94,17 @@ export class AdminService {
                 nickname,
                 tel,
                 profileUrl: profileUrl ?? null,
+                authRole,
             },
         );
 
         if (editUserCount.affected === 1) {
-            const {
-                email,
-                nickname: name,
-                tel: phone,
-                authRole,
-                socialLoginType,
-                profileUrl: profileImg,
-            } = await this.repository.findOneBy({
-                userId,
-            });
-
             return {
-                email,
-                nickname: name,
-                tel: phone,
-                authRole,
-                socialLoginType,
-                profileUrl: profileImg,
+                isSuccess: true,
+                message: '해당 회원 정보를 수정했습니다.',
             };
         }
+
         throw new NotFoundException('해당 회원은 존재하지 않습니다.');
     }
 }

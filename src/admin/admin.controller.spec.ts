@@ -7,6 +7,7 @@ import { User } from '../auth/user.entity';
 import { AuthModule } from '../auth/auth.module';
 import { typeORMConfig } from '../configs/typeorm.config';
 import { editUserValidationTest } from './common_test_module/common_testing_module';
+import { AuthRole } from 'src/auth/enum/auth_role.enum';
 
 describe('AdminController', () => {
     let controller: AdminController;
@@ -36,6 +37,7 @@ describe('AdminController', () => {
             {
                 nickname: '',
                 tel: '',
+                authRole: AuthRole.USER,
                 profileUrl: undefined,
             },
             ['닉네임을 입력하세요', '전화번호를 입력하세요'],
@@ -52,6 +54,7 @@ describe('AdminController', () => {
             {
                 nickname: '',
                 tel: '010-1111',
+                authRole: AuthRole.USER,
                 profileUrl: undefined,
             },
             ['닉네임을 입력하세요', '전화번호 형식을 맞춰서 입력하세요'],
@@ -68,6 +71,7 @@ describe('AdminController', () => {
             {
                 nickname: '',
                 tel: '010-1111-111',
+                authRole: AuthRole.USER,
                 profileUrl: undefined,
             },
             [
@@ -86,6 +90,7 @@ describe('AdminController', () => {
             {
                 nickname: '',
                 tel: '010-1111-1111',
+                authRole: AuthRole.USER,
                 profileUrl: undefined,
             },
             ['닉네임을 입력하세요'],
@@ -98,6 +103,7 @@ describe('AdminController', () => {
             {
                 nickname: 'test1',
                 tel: '',
+                authRole: AuthRole.USER,
                 profileUrl: undefined,
             },
             ['전화번호를 입력하세요'],
@@ -110,6 +116,7 @@ describe('AdminController', () => {
             {
                 nickname: 'test1',
                 tel: '010-111',
+                authRole: AuthRole.USER,
                 profileUrl: undefined,
             },
             ['전화번호 형식을 맞춰서 입력하세요'],
@@ -122,6 +129,7 @@ describe('AdminController', () => {
             {
                 nickname: 'test1',
                 tel: '010-1111-111',
+                authRole: AuthRole.USER,
                 profileUrl: undefined,
             },
             ['입력하고자 전화번호 13자 이상을 입력하세요'],

@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminRepository } from './admin.repository';
 import { User } from '../auth/user.entity';
 import { typeORMConfig } from '../configs/typeorm.config';
+import { AuthRole } from 'src/auth/enum/auth_role.enum';
 
 interface CommonGetUsersPagingAndSearchType {
     currentPage: number;
@@ -200,6 +201,7 @@ describe('AdminService', () => {
     //             {
     //                 nickname: 'test99',
     //                 tel: '010-9999-8888',
+    //                 authRole: AuthRole.USER,
     //                 profileUrl: undefined,
     //             },
     //             '6d7c517c-b3d4-4ee6-8f21-6a68161bd4b4',
@@ -219,6 +221,7 @@ describe('AdminService', () => {
                 {
                     nickname: 'test9',
                     tel: '010-9999-9999',
+                    authRole: AuthRole.USER,
                     profileUrl: undefined,
                 },
                 '111',

@@ -42,6 +42,8 @@ export default defineComponent({
             keyword: '',
             // 검색 쿼리 파라미터
             condParam: '',
+            // x_auth token
+            token: '',
         };
     },
     methods: {
@@ -55,6 +57,11 @@ export default defineComponent({
         async getPrevUserList() {
             const res = await axios.get(
                 `${url}?page=${this.currentPage - 1}${this.condParam}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                    },
+                },
             );
 
             this.setPageInfo(res);
@@ -63,6 +70,11 @@ export default defineComponent({
         async getUserListBySelectedPage(index: number) {
             const res = await axios.get(
                 `${url}?page=${index}${this.condParam}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                    },
+                },
             );
 
             this.setPageInfo(res);
@@ -71,6 +83,11 @@ export default defineComponent({
         async getNextUserList() {
             const res = await axios.get(
                 `${url}?page=${this.currentPage + 1}${this.condParam}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                    },
+                },
             );
 
             this.setPageInfo(res);
@@ -95,6 +112,11 @@ export default defineComponent({
             this.condParam = `&cond=${this.cond}&keyword=${keyword}`;
             const res = await axios.get(
                 `${url}?page=${this.currentPage}${this.condParam}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                    },
+                },
             );
 
             this.setPageInfo(res);
@@ -109,7 +131,14 @@ export default defineComponent({
         },
     },
     async beforeCreate() {
-        const res = await axios.get(url);
+        this.token = this.$cookies.get('x_auth');
+
+        console.log(this.token);
+        const res = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${this.token}`,
+            },
+        });
 
         this.setPageInfo(res);
     },

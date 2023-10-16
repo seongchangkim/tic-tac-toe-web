@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsPhoneNumber, MinLength } from 'class-validator';
+import { AuthRole } from 'src/auth/enum/auth_role.enum';
 
 export class UserEditReqDto {
     @IsNotEmpty({
@@ -17,5 +18,6 @@ export class UserEditReqDto {
     })
     tel: string;
 
+    authRole: AuthRole;
     profileUrl: string;
 }
