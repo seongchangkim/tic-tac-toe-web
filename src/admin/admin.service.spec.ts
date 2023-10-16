@@ -178,17 +178,53 @@ describe('AdminService', () => {
     };
 
     // 회원 상세보기 단위 테스트
-    it('[회원 목록] - 구글 소셜 회원가입한 회원 목록 가져오기', async () => {
+    it('회원 상세보기 성공', async () => {
         const { email, nickname, tel, authRole, socialLoginType, profileUrl } =
             await service.getOtherUserInfo(
                 '6d7c517c-b3d4-4ee6-8f21-6a68161bd4b4',
             );
 
         expect(email).toEqual('test9@test.com');
-        expect(nickname).toEqual('test9');
-        expect(tel).toEqual('010-9999-9999');
+        expect(nickname).toEqual('test99');
+        expect(tel).toEqual('010-9999-8888');
         expect(authRole).toEqual('회원');
         expect(socialLoginType).toEqual('NONE');
         expect(profileUrl).toEqual(null);
+    });
+
+    // 회원 수정 단위 테스트
+    // DB에 존재하는 회원 수정 성공 테스트
+    // it('회원 존재에 의해 회원 수정 성공', async () => {
+    //     const { email, nickname, tel, authRole, socialLoginType, profileUrl } =
+    //         await service.editOtherUser(
+    //             {
+    //                 nickname: 'test99',
+    //                 tel: '010-9999-8888',
+    //                 profileUrl: undefined,
+    //             },
+    //             '6d7c517c-b3d4-4ee6-8f21-6a68161bd4b4',
+    //         );
+
+    //     expect(email).toEqual('test9@test.com');
+    //     expect(nickname).toEqual('test99');
+    //     expect(tel).toEqual('010-9999-8888');
+    //     expect(authRole).toEqual('회원');
+    //     expect(socialLoginType).toEqual('NONE');
+    //     expect(profileUrl).toEqual(null);
+    // });
+
+    it('회원 존재하지 않으므로 회원 수정 실패', async () => {
+        try {
+            await service.editOtherUser(
+                {
+                    nickname: 'test9',
+                    tel: '010-9999-9999',
+                    profileUrl: undefined,
+                },
+                '111',
+            );
+        } catch (e) {
+            expect(e.message).toEqual('해당 회원은 존재하지 않습니다.');
+        }
     });
 });

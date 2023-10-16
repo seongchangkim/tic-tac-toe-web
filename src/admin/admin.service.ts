@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import {
     GetUserListByPagingAndSearchResType,
-    getOtherUserInfoResType,
+    EditOtherUserResType,
+    GetOtherUserInfoResType,
 } from './type/admin_common_service_type';
+import { UserEditReqDto } from './user_edit.dto';
 
 @Injectable()
 export class AdminService {
@@ -32,7 +34,7 @@ export class AdminService {
         let condition = cond;
         let searchKeyword = keyword;
 
-        if (typeof cond === 'undefined' && typeof keyword === 'undefined') {;
+        if (typeof cond === 'undefined' && typeof keyword === 'undefined') {
             condition = `${cond}`;
             searchKeyword = `${keyword}`;
         }
@@ -63,7 +65,7 @@ export class AdminService {
     }
 
     // 회원 상세보기
-    async getOtherUserInfo(userId: string): Promise<getOtherUserInfoResType> {
+    async getOtherUserInfo(userId: string): Promise<GetOtherUserInfoResType> {
         const { email, nickname, tel, authRole, socialLoginType, profileUrl } =
             await this.repository.findOneBy({
                 userId,
@@ -77,5 +79,45 @@ export class AdminService {
             socialLoginType,
             profileUrl,
         };
+    }
+
+    // 회원 수정
+    async editOtherUser(
+        { nickname, tel, profileUrl }: UserEditReqDto,
+        userId: string,
+    ): Promise<EditOtherUserResType> {
+        const editUserCount = await this.repository.update(
+            {
+                userId,
+            },
+            {
+                nickname,
+                tel,
+                profileUrl: profileUrl ?? null,
+            },
+        );
+
+        if (editUserCount.affected === 1) {
+            const {
+                email,
+                nickname: name,
+                tel: phone,
+                authRole,
+                socialLoginType,
+                profileUrl: profileImg,
+            } = await this.repository.findOneBy({
+                userId,
+            });
+
+            return {
+                email,
+                nickname: name,
+                tel: phone,
+                authRole,
+                socialLoginType,
+                profileUrl: profileImg,
+            };
+        }
+        throw new NotFoundException('해당 회원은 존재하지 않습니다.');
     }
 }

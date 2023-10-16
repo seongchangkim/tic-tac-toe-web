@@ -4,7 +4,6 @@ import { UserRepository } from './user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { typeORMConfig } from '../configs/typeorm.config';
-import { SignUpForm } from './dto/sign_up_form.dto';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { jwtOptions } from '../configs/jwt.config';
 import { NotFoundException } from '@nestjs/common';
@@ -71,7 +70,7 @@ describe('AuthService', () => {
                 tel: loginedUser.tel,
                 role: loginedUser.authRole,
                 socialLoginType: loginedUser.socialLoginType,
-                profileUrl: loginedUser.profileUrl
+                profileUrl: loginedUser.profileUrl,
             };
 
             const accessToken = await jwtService.sign(payload);

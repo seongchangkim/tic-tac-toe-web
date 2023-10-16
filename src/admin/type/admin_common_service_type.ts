@@ -9,7 +9,17 @@ export interface GetUserListByPagingAndSearchResType {
 }
 
 // 회원 상세보기 Response 값 타입
-export interface getOtherUserInfoResType {
+export interface GetOtherUserInfoResType {
+    email: string;
+    nickname: string;
+    tel: string;
+    authRole: string;
+    socialLoginType: string;
+    profileUrl: string;
+}
+
+// 회원 수정 Response 값 타입
+export interface EditOtherUserResType {
     email: string;
     nickname: string;
     tel: string;

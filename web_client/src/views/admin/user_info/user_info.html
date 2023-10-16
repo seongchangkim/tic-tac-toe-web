@@ -31,56 +31,41 @@
               </div>
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-              <label for="email" class="block text-sm font-medium text-gray-50"
-                >이메일</label
-              >
-              <input
-                type="email"
-                id="email"
-                class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
-                v-model="user.email"
-                disabled
-              />
-            </div>
+            <!-- 이메일 -->
+            <UserInfoInputForm 
+                inputType="이메일"
+                label="이메일"
+                :disabled="true"
+                :value="user.email"
+                @inputFormValue="valueChange"
+            />
 
-            <div class="col-span-6 sm:col-span-3">
-              <label for="nickname" class="block text-sm font-medium text-gray-50"
-                >닉네임</label
-              >
-              <input
-                type="text"
-                id="nickname"
-                autocomplete="name"
-                class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
-                v-model="user.nickname"
-              />
-            </div>
+            <!-- 닉네임 -->
+            <UserInfoInputForm 
+                inputType="닉네임"
+                label="닉네임"
+                :disabled="false"
+                :value="user.nickname"
+                @inputFormValue="valueChange"
+            />
 
-            <div class="col-span-6 sm:col-span-3">
-              <label for="tel" class="block text-sm font-medium text-gray-50"
-                >전화번호</label
-              >
-              <input
-                type="text"
-                id="tel"
-                class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
+            <!-- 전화번호 -->
+            <UserInfoInputForm 
+                inputType="전화번호"
+                label="전화번호"
+                :disabled="false"
                 :value="user.tel"
-              />
-            </div>
+                @inputFormValue="valueChange"
+            />
 
-            <div class="col-span-6 sm:col-span-3">
-                <label for="tel" class="block text-sm font-medium text-gray-50"
-                  >소셜 로그인</label
-                >
-                <input
-                  type="text"
-                  id="text"
-                  class="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white/10 text-gray-50 sm:text-sm"
-                  :value="user.socialLoginType"
-                  disabled
-                />
-            </div>
+            <!-- 소셜 로그인 -->
+            <UserInfoInputForm 
+                inputType="소셜 로그인"
+                label="소셜 로그인"
+                :disabled="true"
+                :value="user.socialLoginType"
+                @inputFormValue="valueChange"
+            />
 
             <div class="col-span-6 sm:col-span-3">
               <label for="role" class="block text-sm font-medium text-gray-50"
@@ -132,9 +117,3 @@
       </div>
     </div>
 </div>
-
-  <div class="hidden sm:block" aria-hidden="true">
-    <div class="py-5">
-      <div class="border-t border-gray-200"></div>
-    </div>
-  </div>

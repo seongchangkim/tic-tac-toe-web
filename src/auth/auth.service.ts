@@ -38,7 +38,7 @@ export class AuthService {
                     tel,
                     socialLoginType: SocialLoginType.NONE,
                 },
-                password,
+                password
             );
 
             await this.repository.save(signUpUser);
