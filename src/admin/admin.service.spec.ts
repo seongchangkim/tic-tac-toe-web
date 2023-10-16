@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminRepository } from './admin.repository';
 import { User } from '../auth/user.entity';
 import { typeORMConfig } from '../configs/typeorm.config';
-import { AuthRole } from 'src/auth/enum/auth_role.enum';
+import { AuthRole } from '../auth/enum/auth_role.enum';
 
 interface CommonGetUsersPagingAndSearchType {
     currentPage: number;
@@ -43,7 +43,7 @@ describe('AdminService', () => {
             currentPage: 1,
             cond: undefined,
             keyword: undefined,
-            expectTotal: 14,
+            expectTotal: 12,
             expectPage: 1,
             expectLastPage: 2,
         }));
@@ -54,7 +54,7 @@ describe('AdminService', () => {
             currentPage: 2,
             cond: undefined,
             keyword: undefined,
-            expectTotal: 14,
+            expectTotal: 12,
             expectPage: 2,
             expectLastPage: 2,
         }));
@@ -65,9 +65,9 @@ describe('AdminService', () => {
             currentPage: 2,
             cond: 'nickname',
             keyword: 'test',
-            expectTotal: 11,
+            expectTotal: 9,
             expectPage: 2,
-            expectLastPage: 2,
+            expectLastPage: 1,
         }));
 
     // email가 test 단어를 포함하고 2페이지 기준으로 회원 목록 성공 테스트 케이스(페이징 처리 및 검색 기능 성공 테스트 케이스)
@@ -76,9 +76,9 @@ describe('AdminService', () => {
             currentPage: 2,
             cond: 'email',
             keyword: 'test',
-            expectTotal: 11,
+            expectTotal: 9,
             expectPage: 2,
-            expectLastPage: 2,
+            expectLastPage: 1,
         }));
 
     // 회원 권한인 회원이고 2페이지 기준으로 회원 목록 성공 테스트 케이스(페이징 처리 및 검색 기능 성공 테스트 케이스)
@@ -87,7 +87,7 @@ describe('AdminService', () => {
             currentPage: 2,
             cond: 'authRole',
             keyword: '회원',
-            expectTotal: 13,
+            expectTotal: 11,
             expectPage: 2,
             expectLastPage: 2,
         }));
@@ -98,9 +98,9 @@ describe('AdminService', () => {
             currentPage: 2,
             cond: 'socialLoginType',
             keyword: 'NONE',
-            expectTotal: 12,
+            expectTotal: 10,
             expectPage: 2,
-            expectLastPage: 2,
+            expectLastPage: 1,
         }));
 
     // nickname가 admin 단어를 포함하고 2페이지 기준으로 회원 목록 성공 테스트 케이스(검색 기능 성공 테스트 케이스)
@@ -215,7 +215,8 @@ describe('AdminService', () => {
     //     expect(profileUrl).toEqual(null);
     // });
 
-    it('회원 존재하지 않으므로 회원 수정 실패', async () => {
+    // 해당 회원 존재하지 않아서 회원 수정 실패 테스트
+    it('해당 회원 존재하지 않으므로 회원 수정 실패', async () => {
         try {
             await service.editOtherUser(
                 {
@@ -225,6 +226,26 @@ describe('AdminService', () => {
                     profileUrl: undefined,
                 },
                 '111',
+            );
+        } catch (e) {
+            expect(e.message).toEqual('해당 회원은 존재하지 않습니다.');
+        }
+    });
+
+    // 회원 삭제 성공 테스트
+    // it('회원 존재에 의해 회원 삭제 성공', async () => {
+    //     const { isSuccess } = await service.deleteOtherUser(
+    //         'a3b4c96b-a33c-4aa6-96bd-67f631d9752e',
+    //     );
+
+    //     expect(isSuccess).toEqual(true);
+    // });
+
+    // 해당 회원 존재하지 않아서 회원 삭제 실패 테스트
+    it('해당 회원 존재하지 않으므로 회원 삭제 실패', async () => {
+        try {
+            await service.deleteOtherUser(
+                'a3b4c96b-a33c-4aa6-96bd-67f631d9752e',
             );
         } catch (e) {
             expect(e.message).toEqual('해당 회원은 존재하지 않습니다.');

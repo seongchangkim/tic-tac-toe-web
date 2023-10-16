@@ -3,10 +3,12 @@ import axios from 'axios';
 import { defaultApiUrl } from '../../../global/default-api-url';
 import user_info_input_form from '../../../components/admin/user_info_input_form/user_info_input_form.vue';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import user_info_btn from '../../../components/admin/user_info_btn/user_info_btn.vue';
 
 export default defineComponent({
     components: {
         UserInfoInputForm: user_info_input_form,
+        UserInfoBtn: user_info_btn,
     },
     data() {
         return {
@@ -97,6 +99,28 @@ export default defineComponent({
                 });
             }
         },
+        // 회원 삭제
+        async onUserDeleting() {
+            const userId = this.$route.params.userId;
+
+            const res = await axios.delete(
+                `${defaultApiUrl}api/admin/user/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                    },
+                },
+            );
+
+            const data = res.data;
+
+            if (data.isSuccess) {
+                alert(`해당 사용자가 삭제되었습니다.`);
+                this.$router.go(-1);
+            } else if (data.status === 404) {
+                alert(data.message);
+            }
+        },
         // 회원 수정 공통 처리 메소드
         async userEditingProcess(params: any) {
             const userId = this.$route.params.userId;
@@ -106,7 +130,6 @@ export default defineComponent({
                 params,
                 {
                     headers: {
-                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${this.token}`,
                     },
                 },

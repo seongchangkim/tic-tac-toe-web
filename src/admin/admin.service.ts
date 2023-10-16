@@ -107,4 +107,20 @@ export class AdminService {
 
         throw new NotFoundException('해당 회원은 존재하지 않습니다.');
     }
+
+    // 회원 삭제
+    async deleteOtherUser(userId: string): Promise<EditOtherUserResType> {
+        const deleteUserCount = await this.repository.delete({
+            userId,
+        });
+
+        if (deleteUserCount.affected === 1) {
+            return {
+                isSuccess: true,
+                message: '해당 회원 정보를 삭제했습니다.',
+            };
+        }
+
+        throw new NotFoundException('해당 회원은 존재하지 않습니다.');
+    }
 }

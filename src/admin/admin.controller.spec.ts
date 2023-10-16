@@ -7,7 +7,7 @@ import { User } from '../auth/user.entity';
 import { AuthModule } from '../auth/auth.module';
 import { typeORMConfig } from '../configs/typeorm.config';
 import { editUserValidationTest } from './common_test_module/common_testing_module';
-import { AuthRole } from 'src/auth/enum/auth_role.enum';
+import { AuthRole } from '../auth/enum/auth_role.enum';
 
 describe('AdminController', () => {
     let controller: AdminController;

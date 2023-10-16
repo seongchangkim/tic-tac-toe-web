@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     Patch,
@@ -50,5 +51,13 @@ export class AdminController {
         @Param('userId') userId: string,
     ): Promise<EditOtherUserResType> {
         return this.service.editOtherUser(req, userId);
+    }
+
+    @Delete('/user/:userId')
+    @Roles(AuthRole.ADMIN)
+    async deleteOtherUser(
+        @Param('userId') userId: string,
+    ): Promise<EditOtherUserResType> {
+        return this.service.deleteOtherUser(userId);
     }
 }
