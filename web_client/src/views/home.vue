@@ -13,6 +13,7 @@
             <div class="flex -space-x-2 overflow-hidden justify-end">
                 <img
                     class="inline-block h-10 w-10 m-3 rounded-full ring-2 ring-white"
+                    referrerpolicy="no-referrer"
                     :src="
                         user.profileUrl !== null
                             ? user.profileUrl

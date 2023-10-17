@@ -94,11 +94,6 @@ export default defineComponent({
             const res = await axios.post(
                 `${defaultApiUrl}api/auth/social-login/${type}`,
                 params,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                },
             );
 
             const { accessToken, user, isAuth } = res.data;

@@ -34,11 +34,7 @@ export default defineComponent({
             };
 
             await axios
-                .post(`${defaultApiUrl}api/auth/login`, param, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
+                .post(`${defaultApiUrl}api/auth/login`, param)
                 .then((res) => {
                     const { accessToken, user, isAuth } = res.data;
                     const {

@@ -66,19 +66,29 @@ export class AdminService {
 
     // 회원 상세보기
     async getOtherUserInfo(userId: string): Promise<GetOtherUserInfoResType> {
-        const { email, nickname, tel, authRole, socialLoginType, profileUrl } =
-            await this.repository.findOneBy({
+        try {
+            const {
+                email,
+                nickname,
+                tel,
+                authRole,
+                socialLoginType,
+                profileUrl,
+            } = await this.repository.findOneBy({
                 userId,
             });
 
-        return {
-            email,
-            nickname,
-            tel,
-            authRole,
-            socialLoginType,
-            profileUrl,
-        };
+            return {
+                email,
+                nickname,
+                tel,
+                authRole,
+                socialLoginType,
+                profileUrl,
+            };
+        } catch (e) {
+            throw new NotFoundException('해당 회원은 존재하지 않습니다.');
+        }
     }
 
     // 회원 수정
