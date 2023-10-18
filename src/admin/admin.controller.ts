@@ -20,9 +20,11 @@ import { RolesGuard } from './guard/roles.guard';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { Roles } from './roles.decorator';
 import { AuthRole } from '../auth/enum/auth_role.enum';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
+@ApiTags('관리자 API')
 export class AdminController {
     constructor(private service: AdminService) {}
 

@@ -12,8 +12,10 @@ import { IsSuccess, LoginRes } from './type/auth_common_type';
 import { LoginForm } from './dto/login_form.dto';
 import { SocialLoginReqForm } from './dto/social_login_req_form.dto';
 import { SocialLoginType } from './enum/social_login_type.enum';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('회원 API')
 export class AuthController {
     constructor(private service: AuthService) {}
 
