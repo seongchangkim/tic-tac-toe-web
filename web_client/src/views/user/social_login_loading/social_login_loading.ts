@@ -92,7 +92,7 @@ export default defineComponent({
         },
         async socialLogin(params: SocialLoginReqParam, type: string) {
             const res = await axios.post(
-                `${defaultApiUrl}api/auth/social-login/${type}`,
+                `${defaultApiHost}api/auth/social-login/${type}`,
                 params,
             );
 
