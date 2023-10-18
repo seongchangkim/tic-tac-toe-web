@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { defaultApiUrl } from '../../../global/default-api-url';
+import { defaultApiHost } from '../../../global/default-api-url';
 import { defineComponent } from 'vue';
 import user_input_form from '../../../components/user/user_input_form/user_input_form.vue';
 import user_btn from '../../../components/user/user_btn/user_btn.vue';
@@ -38,7 +38,7 @@ export default defineComponent({
             };
 
             await axios
-                .post(`${defaultApiUrl}api/auth/sign-up`, param, {
+                .post(`${defaultApiHost}api/auth/sign-up`, param, {
                     headers: {
                         'Content-Type': 'application/json',
                     },

@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
-import { defaultApiUrl } from '../../../global/default-api-url';
+import { defaultApiHost } from '../../../global/default-api-url';
 
 // 소셜 로그인 API Request 파라미터 타입
 interface SocialLoginReqParam {

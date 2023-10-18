@@ -1,9 +1,10 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
-import { defaultApiUrl } from '../../../global/default-api-url';
+import { defaultApiHost } from '../../../global/default-api-url';
 import user_info_input_form from '../../../components/admin/user_info_input_form/user_info_input_form.vue';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import user_info_btn from '../../../components/admin/user_info_btn/user_info_btn.vue';
+import { callGetApi } from '../../../api/call_rest_api';
 
 export default defineComponent({
     components: {
@@ -31,16 +32,13 @@ export default defineComponent({
         const userId = this.$route.params.userId;
         this.token = this.$cookies.get('x_auth');
 
-        const res = await axios.get(
-            `${defaultApiUrl}api/admin/user/${userId}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${this.token}`,
-                },
-            },
-        );
+        const data = await callGetApi({
+            path: `api/admin/user/${userId}`,
+            queryParameter: undefined,
+            token: this.token,
+        });
 
-        this.user = res.data;
+        this.user = data;
     },
     methods: {
         // 빈 객체 체크
@@ -104,7 +102,7 @@ export default defineComponent({
             const userId = this.$route.params.userId;
 
             const res = await axios.delete(
-                `${defaultApiUrl}api/admin/user/${userId}`,
+                `${defaultApiHost}api/admin/user/${userId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
@@ -126,7 +124,7 @@ export default defineComponent({
             const userId = this.$route.params.userId;
 
             const res = await axios.patch(
-                `${defaultApiUrl}api/admin/user/${userId}`,
+                `${defaultApiHost}api/admin/user/${userId}`,
                 params,
                 {
                     headers: {

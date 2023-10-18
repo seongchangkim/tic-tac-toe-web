@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
-import { defaultApiUrl } from '../../../global/default-api-url';
+import { callGetApi } from '../../../api/call_rest_api';
 
-const url = `${defaultApiUrl}api/admin/users`;
+const getUsersPath = `api/admin/users`;
 
 // 테이블 열별 검색 조건 키 타입
 type CondKeyType = '닉네임' | '이메일' | '권한' | '소설로그인';
@@ -47,50 +47,38 @@ export default defineComponent({
         };
     },
     methods: {
-        moveBackPage() {
-            this.$router.back();
-        },
         getUser() {
             this.user = this.$store.getters['getUser'];
         },
         // 이전 페이지
         async getPrevUserList() {
-            const res = await axios.get(
-                `${url}?page=${this.currentPage - 1}${this.condParam}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.token}`,
-                    },
-                },
-            );
+            const data = await callGetApi({
+                path: getUsersPath,
+                queryParameter: `page=${this.currentPage - 1}${this.condParam}`,
+                token: this.token,
+            });
 
-            this.setPageInfo(res);
+            this.setPageInfo(data);
         },
         // 페이지 선택
         async getUserListBySelectedPage(index: number) {
-            const res = await axios.get(
-                `${url}?page=${index}${this.condParam}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.token}`,
-                    },
-                },
-            );
+            const data = await callGetApi({
+                path: getUsersPath,
+                queryParameter: `page=${index}${this.condParam}`,
+                token: this.token,
+            });
 
-            this.setPageInfo(res);
+            this.setPageInfo(data);
         },
         // 다음 페이지
         async getNextUserList() {
-            const res = await axios.get(
-                `${url}?page=${this.currentPage + 1}${this.condParam}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.token}`,
-                    },
-                },
-            );
+            const data = await callGetApi({
+                path: getUsersPath,
+                queryParameter: `page=${this.currentPage + 1}${this.condParam}`,
+                token: this.token,
+            });
 
-            this.setPageInfo(res);
+            this.setPageInfo(data);
         },
         // 검색 카테고리 선택
         onSearchCategoryClick() {
@@ -110,37 +98,34 @@ export default defineComponent({
             }
 
             this.condParam = `&cond=${this.cond}&keyword=${keyword}`;
-            const res = await axios.get(
-                `${url}?page=${this.currentPage}${this.condParam}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.token}`,
-                    },
-                },
-            );
 
-            this.setPageInfo(res);
+            const data = await callGetApi({
+                path: getUsersPath,
+                queryParameter: `page=${this.currentPage}${this.condParam}`,
+                token: this.token,
+            });
+
+            this.setPageInfo(data);
         },
         // 페이징 처리 공통 메소드
-        setPageInfo(res: any) {
-            this.users = res.data['users'];
-            this.totalPage = res.data['lastPage'];
-            this.isFirst = res.data['page'] === 1;
-            this.isLast = res.data['page'] === res.data['lastPage'];
-            this.currentPage = res.data['page'];
+        setPageInfo(data: any) {
+            this.users = data.users;
+            this.totalPage = data.lastPage;
+            this.isFirst = data.page === 1;
+            this.isLast = data.page === data.lastPage;
+            this.currentPage = data.page;
         },
     },
     async beforeCreate() {
         this.token = this.$cookies.get('x_auth');
 
-        console.log(this.token);
-        const res = await axios.get(url, {
-            headers: {
-                Authorization: `Bearer ${this.token}`,
-            },
+        const data = await callGetApi({
+            path: getUsersPath,
+            queryParameter: undefined,
+            token: this.token,
         });
 
-        this.setPageInfo(res);
+        this.setPageInfo(data);
     },
     created() {
         this.getUser();

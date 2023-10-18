@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { defaultApiUrl } from '../../../global/default-api-url';
+import { defaultApiHost } from '../../../global/default-api-url';
 import { defineComponent } from 'vue';
 import user_input_form from '../../../components/user/user_input_form/user_input_form.vue';
 import user_btn from '../../../components/user/user_btn/user_btn.vue';
@@ -34,7 +34,7 @@ export default defineComponent({
             };
 
             await axios
-                .post(`${defaultApiUrl}api/auth/login`, param)
+                .post(`${defaultApiHost}api/auth/login`, param)
                 .then((res) => {
                     const { accessToken, user, isAuth } = res.data;
                     const {
