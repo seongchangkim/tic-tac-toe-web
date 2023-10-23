@@ -1,7 +1,7 @@
 import { defaultApiHost } from '../global/default-api-url';
 import axios from 'axios';
 import { CallGetApiParameterType } from './parameter_type/parameter_common_type';
-import router from '@/router';
+import router from '../router';
 
 // GET 방식
 export async function callGetApi(
