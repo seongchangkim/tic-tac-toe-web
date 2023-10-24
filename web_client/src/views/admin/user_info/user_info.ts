@@ -23,6 +23,7 @@ export default defineComponent({
             },
             file: {} as Blob,
             token: '',
+            validationMessages: [] as string[],
         };
     },
     props: {
@@ -62,6 +63,9 @@ export default defineComponent({
         },
         // 회원 수정
         async onUserEditing() {
+            if (this.validationMessages.length > 0)
+                this.validationMessages = [];
+
             const userId = this.$route.params.userId;
 
             const { nickname, tel, profileUrl, authRole } = this.user;
@@ -119,27 +123,104 @@ export default defineComponent({
                 alert(data.message);
             }
         },
+        checkValidationMessage(i: number) {
+            const matchStr = ['닉네임', '전화번호'];
+            const check =
+                this.validationMessages.findIndex(
+                    (str) => str.indexOf(matchStr[i]) > -1,
+                ) > -1;
+            return check;
+        },
+        // 유효성 검사 문구들 중 특정 문자에 대해서 필러링함.
+        filterValidationMessages(
+            validationMessages: string[],
+            cb: (str: string) => boolean,
+        ): string[] {
+            return validationMessages.filter(cb);
+        },
+        // 유효성 검사 문구들 중 특정 문자에 대해서 필러링하면서 유효성 검사 문구를 출력함.
+        printValidationMessage(
+            validationMessages: string[],
+            kind: string,
+        ): string {
+            return validationMessages[
+                validationMessages.findIndex((str) => str.indexOf(kind) > -1)
+            ];
+        },
         // 회원 수정 공통 처리 메소드
         async userEditingProcess(params: any) {
             const userId = this.$route.params.userId;
 
-            const res = await axios.patch(
-                `${defaultApiHost}api/admin/user/${userId}`,
-                params,
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.token}`,
+            try {
+                const res = await axios.patch(
+                    `${defaultApiHost}api/admin/user/${userId}`,
+                    params,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${this.token}`,
+                        },
                     },
-                },
-            );
+                );
 
-            const data = res.data;
+                const data = res.data;
 
-            if (data.isSuccess) {
-                alert(data.message);
-                window.location.reload();
-            } else if (data.status === 404) {
-                alert(data.message);
+                if (data.isSuccess) {
+                    alert(data.message);
+                    window.location.reload();
+                } else if (data.status === 404) {
+                    alert(data.message);
+                }
+            } catch (e: any) {
+                const errorData = e.response.data;
+
+                if (errorData.statusCode === 400) {
+                    if (this.user.tel.length > 0) {
+                        this.validationMessages.push(
+                            ...this.filterValidationMessages(
+                                errorData.message,
+                                (str: string) =>
+                                    str.indexOf(
+                                        '전화번호 형식을 맞춰서 입력하세요',
+                                    ) > -1 ||
+                                    str.indexOf(
+                                        '입력하고자 전화번호 13자 이상을 입력하세요',
+                                    ) > -1,
+                            ),
+                        );
+
+                        const telVaildationMessages =
+                            this.filterValidationMessages(
+                                this.validationMessages,
+                                (str: string) => str.indexOf('전화번호') > -1,
+                            );
+
+                        if (telVaildationMessages.length > 1) {
+                            this.validationMessages =
+                                this.filterValidationMessages(
+                                    this.validationMessages,
+                                    (str: string) =>
+                                        str.indexOf(
+                                            '입력하고자 전화번호 13자 이상을 입력하세요',
+                                        ) === -1,
+                                );
+                        }
+                    }
+
+                    this.validationMessages.push(
+                        ...this.filterValidationMessages(
+                            errorData.message,
+                            (str: string) => {
+                                return (
+                                    (str.indexOf('을 입력하세요') > -1 ||
+                                        str.indexOf('를 입력하세요') > -1) &&
+                                    str.indexOf(
+                                        '입력하고자 전화번호 13자 이상을 입력하세요',
+                                    ) === -1
+                                );
+                            },
+                        ),
+                    );
+                }
             }
         },
     },
