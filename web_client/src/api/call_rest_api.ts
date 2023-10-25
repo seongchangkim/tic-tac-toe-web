@@ -2,6 +2,8 @@ import { defaultApiHost } from '../global/default-api-url';
 import axios from 'axios';
 import { CallGetApiParameterType } from './parameter_type/parameter_common_type';
 import router from '../router';
+import store from '../store';
+import { VueCookies } from 'vue-cookies';
 
 // GET 방식
 export async function callGetApi(
@@ -23,6 +25,7 @@ export async function callGetApi(
         const { message, statusCode } = e.response.data;
 
         if (statusCode >= 400) {
+            store.commit('setUser', {});
             alert(`${message} : 관리자 계정으로 로그인하세요.`);
             router.push('/auth/login');
         }
