@@ -31,15 +31,7 @@ export class AdminService {
                 'user.profileUrl',
             ]);
 
-        let condition = cond;
-        let searchKeyword = keyword;
-
-        if (typeof cond === 'undefined' && typeof keyword === 'undefined') {
-            condition = `${cond}`;
-            searchKeyword = `${keyword}`;
-        }
-
-        if (condition !== 'undefined' && searchKeyword !== 'undefined') {
+        if (typeof cond !== 'undefined' && typeof keyword !== 'undefined') {
             query
                 .where(`user.${cond} like :keyword`, {
                     keyword: `%${keyword}%`,
