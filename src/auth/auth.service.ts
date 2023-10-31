@@ -66,7 +66,10 @@ export class AuthService {
             },
         });
 
-        if (loginedUser && bcrypt.compare(password, loginedUser.password)) {
+        if (
+            loginedUser &&
+            (await bcrypt.compare(password, loginedUser.password))
+        ) {
             return this.getLoginRes(loginedUser, undefined);
         } else {
             throw new NotFoundException(
