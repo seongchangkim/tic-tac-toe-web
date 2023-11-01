@@ -21,11 +21,13 @@ export class AuthController {
 
     @Post('/sign-up')
     async signUp(@Body(ValidationPipe) req: SignUpForm): Promise<IsSuccess> {
-        const { success, errorMessage } = await this.service.signUp(req);
+        const { success, errorMessage, userId } =
+            await this.service.signUp(req);
 
         return {
             success,
             errorMessage,
+            userId,
         };
     }
 

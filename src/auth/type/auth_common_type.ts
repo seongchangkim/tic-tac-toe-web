@@ -5,6 +5,7 @@ import { SocialLoginType } from '../enum/social_login_type.enum';
 export interface IsSuccess {
     success: boolean;
     errorMessage: string | undefined;
+    userId: string | undefined;
 }
 
 // 로그인 시 반환할 회원 정보 타입

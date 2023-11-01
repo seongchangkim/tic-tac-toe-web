@@ -30,15 +30,16 @@ export class AuthService {
         tel,
     }: SignUpForm): Promise<IsSuccess> {
         try {
+            const userId = uuidv4();
             const signUpUser: User = await this.registerUser(
                 {
-                    userId: uuidv4(),
+                    userId,
                     email,
                     nickname,
                     tel,
                     socialLoginType: SocialLoginType.NONE,
                 },
-                password
+                password,
             );
 
             await this.repository.save(signUpUser);
@@ -49,12 +50,14 @@ export class AuthService {
                     signUpUser !== undefined
                         ? undefined
                         : '회원가입 실패했습니다.',
+                userId,
             };
         } catch (e) {
             this.logger.error(e.message);
             return {
                 success: false,
                 errorMessage: '관리자과 문의하세요',
+                userId: undefined,
             };
         }
     }
