@@ -32,6 +32,8 @@ export default defineComponent({
             gameOver: false,
             gameStart: false,
             clickToggle: false,
+            computerDiffcultOption: [1, 2, 3],
+            selectComputerDiffcultOption: 1,
         };
     },
     methods: {

@@ -71,18 +71,43 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-center items-center">
-        <GameEventBtn
-            v-if="gameStart"
-            text="다시 시작"
-            styledClassName="bg-red-700"
-            :func="resetGame"
-        />
-        <GameEventBtn
-            v-if="!gameStart"
-            text="시작"
-            styledClassName="bg-blue-600"
-            :func="gameStartEvent"
-        />
+    <div class="flex justify-center items-center flex-col">
+        <div>
+            <div class="flex mb-5">
+                <div id="main_title" class="pt-2 mr-2 font-bold">
+                    AI 난이도 
+                </div>
+                <div class="">
+                    <div class="bg-gray-200 rounded-lg">
+                        <div class="inline-flex rounded-lg">
+                          <input type="radio" id="easy" :value="1" v-model="selectComputerDiffcultOption" hidden/>
+                          <label for="easy" class="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Easy</label>
+                        </div>
+                        <div class="inline-flex rounded-lg">
+                          <input type="radio" id="normal" :value="2" v-model="selectComputerDiffcultOption" hidden/>
+                          <label for="normal" class="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Normal</label>
+                        </div>
+                        <div class="inline-flex rounded-lg">
+                            <input type="radio" id="hard" :value="3" v-model="selectComputerDiffcultOption" hidden/>
+                            <label for="hard" class="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Hard</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center items-center">
+            <GameEventBtn
+                v-if="gameStart"
+                text="다시 시작"
+                styledClassName="bg-red-700"
+                :func="resetGame"
+            />
+            <GameEventBtn
+                v-if="!gameStart"
+                text="시작"
+                styledClassName="bg-blue-600"
+                :func="gameStartEvent"
+            />
+        </div>
     </div>
 </div>
