@@ -1,5 +1,4 @@
 import { defineComponent } from 'vue';
-import axios from 'axios';
 import { callGetApi } from '../../../api/call_rest_api';
 
 const getUsersPath = `api/admin/users`;
