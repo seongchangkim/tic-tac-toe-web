@@ -3,7 +3,6 @@ import axios from 'axios';
 import { CallGetApiParameterType } from './parameter_type/parameter_common_type';
 import router from '../router';
 import store from '../store';
-import { VueCookies } from 'vue-cookies';
 
 // GET 방식
 export async function callGetApi(
