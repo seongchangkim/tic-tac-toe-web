@@ -142,8 +142,6 @@ export default defineComponent({
         },
         // easy AI 셀 선택
         easyComputerMove() {
-            console.log('bbbbb');
-
             if (!this.gameOver) {
                 let computerChance = true;
                 let rowIndex = 0;
@@ -158,7 +156,6 @@ export default defineComponent({
                         computerChance = false;
 
                         if (this.checkWin('O')) {
-                            console.log('computer winner!');
                             this.gameOver = true;
                             alert('O win!');
                         }
@@ -170,8 +167,6 @@ export default defineComponent({
         },
         // normal AI 셀 선택
         normalComputerMove() {
-            console.log(`O win check : ${this.checkWin('O')}`);
-
             // 승리 가능한 경우: 가로, 세로, 대각선 중 하나에서 승리 가능한 경우를 찾습니다.
             for (let i = 0; i < 3; i++) {
                 if (
@@ -337,7 +332,6 @@ export default defineComponent({
             this.boxes[bestMove.row][bestMove.col] = 'O';
 
             if (this.checkWin('O')) {
-                console.log('computer winner!');
                 this.gameOver = true;
                 alert('O win!');
             }
