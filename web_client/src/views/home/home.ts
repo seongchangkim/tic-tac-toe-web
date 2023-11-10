@@ -7,6 +7,13 @@ interface WinConditionType {
     cond3: string;
     player: string;
 }
+
+interface NormalComputerMoveType {
+    checkBox1: string;
+    checkBox2: string;
+    checkBox3: string;
+    player: string;
+}
 export default defineComponent({
     name: 'Home',
     components: {
@@ -155,11 +162,8 @@ export default defineComponent({
                         this.boxes[rowIndex][colIndex] = 'O';
                         computerChance = false;
 
-                        if (this.checkWin('O')) {
-                            this.gameOver = true;
-                            alert('O win!');
-                        }
-
+                        // 컴퓨터가 승리 여부 체크
+                        this.computerWinAlert();
                         return;
                     }
                 }
@@ -170,75 +174,75 @@ export default defineComponent({
             // 승리 가능한 경우: 가로, 세로, 대각선 중 하나에서 승리 가능한 경우를 찾습니다.
             for (let i = 0; i < 3; i++) {
                 if (
-                    this.boxes[i][0] === 'O' &&
-                    this.boxes[i][1] === 'O' &&
-                    this.boxes[i][2] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[i][0],
+                        checkBox2: this.boxes[i][1],
+                        checkBox3: this.boxes[i][2],
+                        player: 'O',
+                    })
                 ) {
                     this.boxes[i][2] = 'O'; // 왼쪽에서 오른쪽으로 가로로 승리 가능
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[i][0] === 'O' &&
-                    this.boxes[i][2] === 'O' &&
-                    this.boxes[i][1] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[i][0],
+                        checkBox2: this.boxes[i][2],
+                        checkBox3: this.boxes[i][1],
+                        player: 'O',
+                    })
                 ) {
                     this.boxes[i][1] = 'O'; // 가운데에서 가로로 승리 가능
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[i][1] === 'O' &&
-                    this.boxes[i][2] === 'O' &&
-                    this.boxes[i][0] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[i][1],
+                        checkBox2: this.boxes[i][2],
+                        checkBox3: this.boxes[i][0],
+                        player: 'O',
+                    })
                 ) {
                     this.boxes[i][0] = 'O'; // 오른쪽에서 왼쪽으로 가로로 승리 가능
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[0][i] === 'O' &&
-                    this.boxes[1][i] === 'O' &&
-                    this.boxes[2][i] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[0][i],
+                        checkBox2: this.boxes[1][i],
+                        checkBox3: this.boxes[2][i],
+                        player: 'O',
+                    })
                 ) {
                     this.boxes[2][i] = 'O'; // 위에서 아래로 세로로 승리 가능
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[0][i] === 'O' &&
-                    this.boxes[2][i] === 'O' &&
-                    this.boxes[1][i] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[0][i],
+                        checkBox2: this.boxes[2][i],
+                        checkBox3: this.boxes[1][i],
+                        player: 'O',
+                    })
                 ) {
                     this.boxes[1][i] = 'O'; // 중앙에서 세로로 승리 가능
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert();
                     return;
                 }
                 if (
-                    this.boxes[1][i] === 'O' &&
-                    this.boxes[2][i] === 'O' &&
-                    this.boxes[0][i] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[1][i],
+                        checkBox2: this.boxes[2][i],
+                        checkBox3: this.boxes[0][i],
+                        player: 'O',
+                    })
                 ) {
                     this.boxes[0][i] = 'O'; // 아래에서 위로 세로로 승리 가능
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
             }
@@ -246,75 +250,75 @@ export default defineComponent({
             // 상대방이 승리 가능한 경우 방지: 가로, 세로, 대각선 중 하나에서 상대방이 승리 가능한 경우를 방지합니다.
             for (let i = 0; i < 3; i++) {
                 if (
-                    this.boxes[i][0] === this.currentPlayer &&
-                    this.boxes[i][1] === this.currentPlayer &&
-                    this.boxes[i][2] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[i][0],
+                        checkBox2: this.boxes[i][1],
+                        checkBox3: this.boxes[i][2],
+                        player: this.currentPlayer,
+                    })
                 ) {
                     this.boxes[i][2] = 'O';
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[i][0] === 'X' &&
-                    this.boxes[i][2] === 'X' &&
-                    this.boxes[i][1] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[i][0],
+                        checkBox2: this.boxes[i][2],
+                        checkBox3: this.boxes[i][1],
+                        player: this.currentPlayer,
+                    })
                 ) {
                     this.boxes[i][1] = 'O';
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[i][1] === 'X' &&
-                    this.boxes[i][2] === 'X' &&
-                    this.boxes[i][0] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[i][1],
+                        checkBox2: this.boxes[i][2],
+                        checkBox3: this.boxes[i][0],
+                        player: this.currentPlayer,
+                    })
                 ) {
                     this.boxes[i][0] = 'O';
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[0][i] === 'X' &&
-                    this.boxes[1][i] === 'X' &&
-                    this.boxes[2][i] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[0][i],
+                        checkBox2: this.boxes[1][i],
+                        checkBox3: this.boxes[2][i],
+                        player: this.currentPlayer,
+                    })
                 ) {
                     this.boxes[2][i] = 'O';
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[0][i] === 'X' &&
-                    this.boxes[2][i] === 'X' &&
-                    this.boxes[1][i] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[0][i],
+                        checkBox2: this.boxes[2][i],
+                        checkBox3: this.boxes[1][i],
+                        player: this.currentPlayer,
+                    })
                 ) {
                     this.boxes[1][i] = 'O';
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
                 if (
-                    this.boxes[1][i] === 'X' &&
-                    this.boxes[2][i] === 'X' &&
-                    this.boxes[0][i] === ''
+                    this.checkNormalComputerMove({
+                        checkBox1: this.boxes[1][i],
+                        checkBox2: this.boxes[2][i],
+                        checkBox3: this.boxes[0][i],
+                        player: this.currentPlayer,
+                    })
                 ) {
                     this.boxes[0][i] = 'O';
-                    if (this.checkWin('O')) {
-                        this.gameOver = true;
-                        alert('O win!');
-                    }
+                    this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
                     return;
                 }
             }
@@ -331,10 +335,7 @@ export default defineComponent({
             const bestMove = this.minimax(this.boxes, 'O');
             this.boxes[bestMove.row][bestMove.col] = 'O';
 
-            if (this.checkWin('O')) {
-                this.gameOver = true;
-                alert('O win!');
-            }
+            this.computerWinAlert(); // 컴퓨터가 승리 여부 체크
 
             return;
         },
@@ -413,6 +414,17 @@ export default defineComponent({
                 }
             );
         },
+        // Normal 난이도 컴퓨터 움직임 체크
+        checkNormalComputerMove({
+            checkBox1,
+            checkBox2,
+            checkBox3,
+            player,
+        }: NormalComputerMoveType) {
+            return (
+                checkBox1 === player && checkBox2 === player && checkBox3 === ''
+            );
+        },
         checkWinCondition({
             cond1,
             cond2,
@@ -420,6 +432,12 @@ export default defineComponent({
             player,
         }: WinConditionType): boolean {
             return cond1 === player && cond2 === player && cond3 === player;
+        },
+        computerWinAlert() {
+            if (this.checkWin('O')) {
+                this.gameOver = true;
+                alert('O win!');
+            }
         },
         onClickToggle() {
             this.clickToggle = !this.clickToggle;
