@@ -1,14 +1,14 @@
 import {
     BaseEntity,
     Column,
-    CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
-    Timestamp,
-    UpdateDateColumn,
 } from 'typeorm';
 import { AuthRole } from './enum/auth_role.enum';
 import { SocialLoginType } from './enum/social_login_type.enum';
+import GameRoom from '../gameroom/gameroom.entity';
+import { CommonDate } from '../embedded_entity/common_date.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -36,9 +36,9 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar', nullable: true })
     profileUrl: string;
 
-    @CreateDateColumn({ type: 'timestamp' })
-    createdAt: Timestamp;
+    @OneToMany(() => GameRoom, (gameRoom) => gameRoom.user)
+    gamerooms: Promise<GameRoom[]>;
 
-    @UpdateDateColumn({ type: 'timestamp', onUpdate: 'CURRENT_TIMESTAMP(6)' })
-    lastModifiedAt: Timestamp;
+    @Column(() => CommonDate)
+    date: CommonDate;
 }

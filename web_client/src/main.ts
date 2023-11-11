@@ -6,7 +6,10 @@ import './globals.css';
 import VueCookies from 'vue-cookies';
 import dayjs from 'dayjs';
 import { initializeApp } from 'firebase/app';
+import VueSocketIoExt from 'vue-socket.io-extended';
+import io from 'socket.io-client';
 
+const socket = io('http://localhost:3000');
 const app = createApp(App);
 
 app.config.globalProperties.$dayjs = dayjs;
@@ -22,6 +25,11 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-app.use(VueCookies, { expires: '1h' }).use(store).use(router).mount('#app');
+app.use(VueCookies, { expires: '1h' })
+    .use(VueSocketIoExt, socket, {
+        store,
+    })
+    .use(router)
+    .mount('#app');
 
 (window as any).Kakao.init(process.env.VUE_APP_KAKAO_JAVASCRIPT_KEY);

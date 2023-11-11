@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './configs/typeorm.config';
 import { AdminModule } from './admin/admin.module';
+import { GameroomModule } from './gameroom/gameroom.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { AdminModule } from './admin/admin.module';
         TypeOrmModule.forRoot(typeORMConfig),
         AuthModule,
         AdminModule,
+        GameroomModule,
     ],
     controllers: [],
     providers: [],
