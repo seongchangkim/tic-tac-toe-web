@@ -36,7 +36,10 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar', nullable: true })
     profileUrl: string;
 
-    @OneToMany(() => GameRoom, (gameRoom) => gameRoom.user)
+    @OneToMany(() => GameRoom, (gameRoom) => gameRoom.user, {
+        cascade: true,
+        onDelete: 'CASCADE',
+    })
     gamerooms: Promise<GameRoom[]>;
 
     @Column(() => CommonDate)

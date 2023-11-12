@@ -29,10 +29,7 @@ export default class GameRoom extends BaseEntity {
     @Column()
     isPublic: boolean = true;
 
-    @ManyToOne(() => User, {
-        cascade: ['insert', 'update'],
-        onDelete: 'CASCADE',
-    })
+    @ManyToOne(() => User, (user) => user.gamerooms)
     @JoinColumn({ name: 'userId' })
     user: Promise<User>;
 

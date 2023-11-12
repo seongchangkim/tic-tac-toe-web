@@ -12,7 +12,7 @@ import { Server } from 'socket.io';
         origin: '*',
     },
 })
-export class GameroomGateway {
+export class GameRoomGateway {
     constructor() {}
 
     @WebSocketServer()
