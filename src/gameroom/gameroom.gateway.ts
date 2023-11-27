@@ -19,7 +19,6 @@ export class GameRoomGateway {
     server: Server;
 
     @SubscribeMessage('message')
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     handleMessage(@MessageBody() message: string): void {
         this.server.emit('message', message);
     }

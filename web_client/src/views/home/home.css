@@ -8,3 +8,7 @@ input:checked ~ .radio {
 #main_title {
     font-family: 'Pixelify Sans', sans-serif;
 }
+
+.main_home_component_radio {
+    height: 92vh;
+}

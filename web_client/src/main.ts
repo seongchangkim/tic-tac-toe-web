@@ -25,11 +25,6 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-app.use(VueCookies, { expires: '1h' })
-    .use(VueSocketIoExt, socket, {
-        store,
-    })
-    .use(router)
-    .mount('#app');
+app.use(VueCookies, { expires: '1h' }).use(store).use(router).mount('#app');
 
 (window as any).Kakao.init(process.env.VUE_APP_KAKAO_JAVASCRIPT_KEY);
