@@ -50,7 +50,12 @@
             </div>
         </div>
     </div>
-    <div class="main_home_component_radio flex flex-col justify-center">
-        <TicTacToeVsComputerComponent />
+    <div class="main_home_component_radio flex flex-col justify-center items-center">
+        <div v-if="!user.isAuth">
+            <TicTacToeVsComputerComponent />
+        </div>
+        <div v-else-if="user.isAuth" class="w-5/6">
+            <GameRoomListComponent />
+        </div>
     </div>
 </div>
