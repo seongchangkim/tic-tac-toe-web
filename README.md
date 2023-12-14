@@ -22,6 +22,12 @@ tic-tac-toe 게임 서버와 웹 프론트엔드를 구현한 웹 프로젝트�
 ## ERD 다이어그램 링크
 ● https://www.erdcloud.com/d/QQZDkNCDEfw625QKi
 
+## 서버에서 적용했던 주요 기술
+● bcrypt npm 모듈를 통해 bcrypt 해시 암호화 알고리즘을 적용함으로써 회원에 대한 보안성을 높였습니다. <br/>
+● 가계부 플랫폼과 마찬가지로 jsonwebtoken npm 모듈을 통해 JWT 토큰 부분을 설정한 다음에 JWT 토큰 인증 방식으로 회원을 인증하도록 하여 서버에 부담을 덜하도록 했습니다. <br/>
+● 서버에 Swagger를 적용함으로써 postman, jest 및 클라이언트 등을 없이 RESTful API를 문서화하여 테스트할 수 있도록 구현했습니다. <br/>
+● Request DTO 및 Nest.js에서 제공한 ValidationPipe를 이용하여 서버에 유효성 검사할 수 있도록 구현했습니다.
+
 ## 주요 기능 및 페이지
 ### 1. 로그인
 <p align="center"><img src="https://github.com/seongchangkim/tic-tac-toe-web/assets/74657556/dbaa54f0-68fa-4561-af6d-cb130dbe52b4"></p>
