@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, Res } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from './user.repository';
 import { SignUpForm } from './dto/sign_up_form.dto';
@@ -13,6 +13,7 @@ import {
     SignUpUserType,
     SocialUserType,
 } from './type/auth_common_service_type';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -62,7 +63,13 @@ export class AuthService {
         }
     }
 
-    async login({ email, password }: LoginForm): Promise<LoginRes> {
+    async login(
+        { email, password }: LoginForm,
+        @Res({
+            passthrough: true,
+        })
+        res: Response,
+    ): Promise<LoginRes> {
         const loginedUser = await this.repository.findOne({
             where: {
                 email,
@@ -73,7 +80,7 @@ export class AuthService {
             loginedUser &&
             (await bcrypt.compare(password, loginedUser.password))
         ) {
-            return this.getLoginRes(loginedUser, undefined);
+            return this.getLoginRes(loginedUser, undefined, res);
         } else {
             throw new NotFoundException(
                 '아이디 또는 비밀번호가 일치하지 않습니다.',
@@ -84,6 +91,7 @@ export class AuthService {
     async socialLogin(
         socialLoginType: SocialLoginType,
         { email, nickname, profileUrl, accessToken }: SocialLoginReqForm,
+        res: Response,
     ): Promise<LoginRes> {
         const existedUser = await this.repository.findOne({
             where: {
@@ -107,10 +115,10 @@ export class AuthService {
 
             await this.repository.save(registerSocialUser);
 
-            return this.getLoginRes(registerSocialUser, accessToken);
+            return this.getLoginRes(registerSocialUser, accessToken, res);
         }
 
-        return this.getLoginRes(existedUser, accessToken);
+        return this.getLoginRes(existedUser, accessToken, res);
     }
 
     // 회원 등록
@@ -130,6 +138,7 @@ export class AuthService {
     private async getLoginRes(
         { userId, nickname, tel, authRole, socialLoginType, profileUrl }: User,
         token: string | undefined,
+        res: Response,
     ): Promise<LoginRes> {
         const payload = {
             userId,
@@ -142,6 +151,12 @@ export class AuthService {
 
         const accessToken =
             token !== undefined ? token : await this.jwtService.sign(payload);
+
+        res.cookie('x_auth', accessToken, {
+            domain: 'localhost',
+            path: '/',
+            httpOnly: true,
+        });
 
         return {
             accessToken,

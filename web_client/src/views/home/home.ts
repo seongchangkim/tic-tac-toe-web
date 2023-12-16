@@ -24,10 +24,11 @@ export default defineComponent({
     },
     methods: {
         getUser() {
+            console.log(document.cookie);
             this.user = this.$store.getters['getUser'];
         },
         logOut() {
-            this.$cookies.remove('x_auth');
+            // this.$cookies.remove('x_auth');
             this.$store.commit('setUser', {
                 userId: '',
                 nickname: '',

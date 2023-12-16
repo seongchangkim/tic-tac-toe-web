@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { AuthRole } from './enum/auth_role.enum';
 import { SocialLoginType } from './enum/social_login_type.enum';
-import GameRoom from '../gameroom/gameroom.entity';
+// import GameRoom from '../gameroom/gameroom.entity';
 import { CommonDate } from '../embedded_entity/common_date.entity';
 
 @Entity()
@@ -36,11 +36,11 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar', nullable: true })
     profileUrl: string;
 
-    @OneToMany(() => GameRoom, (gameRoom) => gameRoom.user, {
-        cascade: true,
-        onDelete: 'CASCADE',
-    })
-    gamerooms: Promise<GameRoom[]>;
+    // @OneToMany(() => GameRoom, (gameRoom) => gameRoom.user, {
+    //     cascade: true,
+    //     onDelete: 'CASCADE',
+    // })
+    // gamerooms: Promise<GameRoom[]>;
 
     @Column(() => CommonDate)
     date: CommonDate;

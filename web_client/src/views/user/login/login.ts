@@ -56,7 +56,7 @@ export default defineComponent({
                             socialLoginType,
                             profileUrl,
                         });
-                        this.$cookies.set('x_auth', accessToken);
+
                         this.$router.push('/');
                     }
                 })
