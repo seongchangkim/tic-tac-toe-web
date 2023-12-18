@@ -1,0 +1,14 @@
+<div class="bg-white rounded-lg h-full">
+    <div class="flex justify-between items-center p-5">
+        <p class="text-xl font-bold">게임 방 목록</p>
+
+        <GameEventBtn text="게임방 만들기" styledClassName="bg-blue-600" :func="createGameRoomDialog"/>
+    </div>
+
+    <div v-if="this.gameRoomList.length === 0" class="py-10 bg-gray-100 h-3/4 w-11/12 flex flex-col justify-center items-center mx-auto rounded-lg">
+        <div class="flex flex-col justify-center items-center">
+            <img src="@/assets/img/tic-tac-toe.png" width="200" height="200" class="mt-10 my-5"/>
+            <p class="font-bold">게임방이 존재하지 않습니다.</p>
+        </div>
+    </div>
+</div>

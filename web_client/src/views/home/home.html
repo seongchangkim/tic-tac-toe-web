@@ -1,0 +1,61 @@
+<div class="bg-slate-500 h-screen">
+    <div v-if="!user.isAuth" class="flex justify-end">
+        <router-link to="/auth/login">
+            <div
+                class="cursor-default mt-4 mr-4 bg-orange-600 rounded-3xl w-24 h-10 flex justify-center items-center"
+            >
+                로그인
+            </div>
+        </router-link>
+    </div>
+    <div v-else-if="user.isAuth" class="flex items-end flex-col">
+        <div class="flex -space-x-2 overflow-hidden justify-end">
+            <img
+                class="inline-block h-10 w-10 m-3 rounded-full ring-2 ring-white"
+                referrerpolicy="no-referrer"
+                :src="
+                    user.profileUrl !== null
+                        ? user.profileUrl
+                        : require('@/assets/icons/default-user-profile.png')
+                "
+                @click="onClickToggle"
+            />
+        </div>
+        <div
+            v-if="clickToggle"
+            class="w-48 mr-4 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="user-menu-button"
+            tabindex="-1"
+        >
+            <div
+                v-if="user.authRole === '관리자'"
+                class="block px-4 py-2 text-sm text-gray-700 cursor-default"
+                role="menuitem"
+                tabindex="-1"
+                id="user-menu-item-1"
+                @click="moveAdminPage"
+            >
+                관리자 페이지
+            </div>
+            <div
+                class="block px-4 py-2 text-sm text-gray-700 cursor-default"
+                role="menuitem"
+                tabindex="-1"
+                id="user-menu-item-2"
+                @click="logOut()"
+            >
+                로그아웃
+            </div>
+        </div>
+    </div>
+    <div class="main_home_component_radio flex flex-col justify-center items-center">
+        <div v-if="!user.isAuth">
+            <TicTacToeVsComputerComponent />
+        </div>
+        <div v-else-if="user.isAuth" class="w-5/6">
+            <GameRoomListComponent />
+        </div>
+    </div>
+</div>
